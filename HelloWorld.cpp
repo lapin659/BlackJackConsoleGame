@@ -2,6 +2,6 @@
 
 int main()
 {
-    std::cout << "Hello Class!\n ";
+    std::cout << "Hello Everyone, how are you doing?\n ";
 }
 
