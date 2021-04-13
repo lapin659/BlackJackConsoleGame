@@ -1,6 +1,5 @@
 #include "gameWindow.h"
 
-
 using namespace System;
 using namespace System::Windows::Forms;
 
@@ -14,4 +13,8 @@ void main(array<String^>^ args)
 	Application::SetCompatibleTextRenderingDefault(false);
 	blackJack::gameWindow window;
 	Application::Run(% window);
+
+
+
+
 }

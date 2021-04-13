@@ -1,5 +1,10 @@
 #pragma once
 #include <string>
+#include <cstdlib>
+#include <time.h>
+#include <iostream>
+
+
 
 
 namespace blackJack {
@@ -11,6 +16,7 @@ namespace blackJack {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+
 	/// <summary>
 	/// Summary for gameWindow
 	/// </summary>
@@ -20,12 +26,20 @@ namespace blackJack {
 		gameWindow(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			usedCards = gcnew array<bool^> {false, false, false, false, false, false, false, false, false, false, false, false,
+											false, false, false, false, false, false, false, false, false, false, false, false,
+											false, false, false, false, false, false, false, false, false, false, false, false,
+											false, false, false, false, false, false, false, false, false, false, false, false,
+											false, false, false, false};
+			srand(time(NULL));
+
 		}
 
+
 	protected:
+		array<bool^>^ usedCards;
+
+
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
@@ -36,6 +50,7 @@ namespace blackJack {
 				delete components;
 			}
 		}
+
 	private: System::Windows::Forms::Button^ hitButton;
 	private: System::Windows::Forms::Button^ standButton;
 	private: System::Windows::Forms::Button^ doubleButton;
@@ -84,11 +99,14 @@ namespace blackJack {
 
 
 	protected:
+		
+
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
+		
 
 
 #pragma region Windows Form Designer generated code
@@ -98,6 +116,11 @@ namespace blackJack {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			
+
+
+
+			
 			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(gameWindow::typeid));
 			this->hitButton = (gcnew System::Windows::Forms::Button());
@@ -576,10 +599,16 @@ namespace blackJack {
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
+			
+			
+
+			
+
 		}
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
 	{
+		
 	}
 
 
@@ -615,45 +644,64 @@ private: System::Void clearBetButton_Click(System::Object^ sender, System::Event
 //HIT STAND DOUBLE BUTTONS
 private: System::Void hitButton_Click(System::Object^ sender, System::EventArgs^ e) 
 {
-	if (this->playerCardBox01->Visible == false)
+
+	
+	
+
+	int n;
+	n = rand() % (int)51;
+
+	
+	
+	while (System::Convert::ToBoolean(usedCards[n]) == true)
 	{
+		n = rand() % (int)51;
+	}
+
+	usedCards[n] = true;
+
+
+	if (this->playerCardBox01->Visible == false)
+
+	{
+		
 		this->debugText->Text = "box 1";
-		this->playerCardBox01->Image = Cards->Images[0];
+		this->playerCardBox01->Image = Cards->Images[n];
 		this->playerCardBox01->Visible = true;
 	}
 
 	else if (this->playerCardBox02->Visible == false)
 	{
 		this->debugText->Text = "box 2";
-		this->playerCardBox02->Image = Cards->Images[0];
+		this->playerCardBox02->Image = Cards->Images[n];
 		this->playerCardBox02->Visible = true;
 	}
 
 	else if (this->playerCardBox03->Visible == false)
 	{
 		this->debugText->Text = "box 3";
-		this->playerCardBox03->Image = Cards->Images[0];
+		this->playerCardBox03->Image = Cards->Images[n];
 		this->playerCardBox03->Visible = true;
 	}
 
 	else if (this->playerCardBox04->Visible == false)
 	{
 		this->debugText->Text = "box 4";
-		this->playerCardBox04->Image = Cards->Images[0];
+		this->playerCardBox04->Image = Cards->Images[n];
 		this->playerCardBox04->Visible = true;
 	}
 
 	else if (this->playerCardBox05->Visible == false)
 	{
 		this->debugText->Text = "box 5";
-		this->playerCardBox05->Image = Cards->Images[0];
+		this->playerCardBox05->Image = Cards->Images[n];
 		this->playerCardBox05->Visible = true;
 	}
 
 	else if (this->playerCardBox06->Visible == false)
 	{
 		this->debugText->Text = "box 6";
-		this->playerCardBox06->Image = Cards->Images[0];
+		this->playerCardBox06->Image = Cards->Images[n];
 		this->playerCardBox06->Visible = true;
 	}
 	else
@@ -676,4 +724,6 @@ private: System::Void doubleButton_Click(System::Object^ sender, System::EventAr
 	this->debugText->Text = "Double Button Pressed";
 }
 };
+
+
 }
