@@ -34,8 +34,15 @@ namespace blackJack {
 			srand(time(NULL));
 
 		}
+	private: System::Windows::Forms::Button^ placeBet;
+	public:
+
+	public:
 
 
+	protected:
+		bool betPlaced = false;
+	private: System::Windows::Forms::Button^ reset;
 	protected:
 		array<bool^>^ usedCards;
 
@@ -116,11 +123,6 @@ namespace blackJack {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			
-
-
-
-			
 			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(gameWindow::typeid));
 			this->hitButton = (gcnew System::Windows::Forms::Button());
@@ -153,6 +155,8 @@ namespace blackJack {
 			this->handTotalLabel = (gcnew System::Windows::Forms::Label());
 			this->dealerHandTotal = (gcnew System::Windows::Forms::Label());
 			this->dealerHandLabel = (gcnew System::Windows::Forms::Label());
+			this->placeBet = (gcnew System::Windows::Forms::Button());
+			this->reset = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -428,6 +432,7 @@ namespace blackJack {
 			this->Cards->Images->SetKeyName(49, L"QD.jpg");
 			this->Cards->Images->SetKeyName(50, L"QH.jpg");
 			this->Cards->Images->SetKeyName(51, L"QS.jpg");
+			this->Cards->Images->SetKeyName(52, L"Red_back.jpg");
 			// 
 			// debugText
 			// 
@@ -542,6 +547,26 @@ namespace blackJack {
 			this->dealerHandLabel->TabIndex = 27;
 			this->dealerHandLabel->Text = L"Dealer Hand Total: ";
 			// 
+			// placeBet
+			// 
+			this->placeBet->Location = System::Drawing::Point(1000, 448);
+			this->placeBet->Name = L"placeBet";
+			this->placeBet->Size = System::Drawing::Size(75, 23);
+			this->placeBet->TabIndex = 29;
+			this->placeBet->Text = L"Place Bet";
+			this->placeBet->UseVisualStyleBackColor = true;
+			this->placeBet->Click += gcnew System::EventHandler(this, &gameWindow::placeBet_Click);
+			// 
+			// reset
+			// 
+			this->reset->Location = System::Drawing::Point(72, 587);
+			this->reset->Name = L"reset";
+			this->reset->Size = System::Drawing::Size(75, 23);
+			this->reset->TabIndex = 30;
+			this->reset->Text = L"Debug reset\r\n";
+			this->reset->UseVisualStyleBackColor = true;
+			this->reset->Click += gcnew System::EventHandler(this, &gameWindow::reset_Click);
+			// 
 			// gameWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -550,6 +575,8 @@ namespace blackJack {
 			this->BackColor = System::Drawing::Color::Green;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(1264, 921);
+			this->Controls->Add(this->reset);
+			this->Controls->Add(this->placeBet);
 			this->Controls->Add(this->dealerHandTotal);
 			this->Controls->Add(this->dealerHandLabel);
 			this->Controls->Add(this->handTotalAmount);
@@ -599,11 +626,6 @@ namespace blackJack {
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
-			
-			
-
-			
-
 		}
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
@@ -617,27 +639,47 @@ namespace blackJack {
 //Betting Buttons
 private: System::Void bet10Button_Click(System::Object^ sender, System::EventArgs^ e) 
 {
+	if (betPlaced == true)
+	{
+		return;
+	}
 	int result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
 	playerBetAmount->Text = System::Convert::ToString(result);
 	
 }
 private: System::Void bet50Button_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	if (betPlaced == true)
+	{
+		return;
+	}
 	int result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
 	playerBetAmount->Text = System::Convert::ToString(result);
 }
 private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e) 
 {
+	if (betPlaced == true)
+	{
+		return;
+	}
 	int result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
 	playerBetAmount->Text = System::Convert::ToString(result);
 }
 private: System::Void bet500Button_Click(System::Object^ sender, System::EventArgs^ e) 
 {
+	if (betPlaced == true)
+	{
+		return;
+	}
 	int result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
 	playerBetAmount->Text = System::Convert::ToString(result);
 }
 private: System::Void clearBetButton_Click(System::Object^ sender, System::EventArgs^ e) 
 {
+	if (betPlaced == true)
+	{
+		return;
+	}
 	playerBetAmount->Text = System::Convert::ToString(0);
 }
 
@@ -645,17 +687,19 @@ private: System::Void clearBetButton_Click(System::Object^ sender, System::Event
 private: System::Void hitButton_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 
+	if (betPlaced == false)
+	{
+		return;
+	}
 	
-	
-
 	int n;
-	n = rand() % (int)51;
+	n = rand() % (int)52;
 
 	
 	
 	while (System::Convert::ToBoolean(usedCards[n]) == true)
 	{
-		n = rand() % (int)51;
+		n = rand() % (int)52;
 	}
 
 	usedCards[n] = true;
@@ -722,6 +766,81 @@ private: System::Void standButton_Click(System::Object^ sender, System::EventArg
 private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e) 
 {
 	this->debugText->Text = "Double Button Pressed";
+}
+
+private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ e) 
+{
+	if (betPlaced == true || System::Convert::ToInt16(playerBetAmount->Text) == 0)
+	{
+		return;
+	}
+	
+	int n;
+
+	for (int i = 0; i < 5; i++)
+	{
+		n = rand() % (int)52;
+
+		while (System::Convert::ToBoolean(usedCards[n]) == true)
+		{
+			n = rand() % (int)52;
+		}
+
+		usedCards[n] = true;
+
+		if (i == 0)
+		{
+			this->playerCardBox01->Image = Cards->Images[n];
+			this->playerCardBox01->Visible = true;
+		}
+		else if (i == 1)
+		{
+			this->dealerCardBox01->Image = Cards->Images[n];
+			this->dealerCardBox01->Visible = true;
+		}
+		else if (i == 2)
+		{
+			this->playerCardBox02->Image = Cards->Images[n];
+			this->playerCardBox02->Visible = true;
+		}
+		else if (i == 3)
+		{
+			this->dealerCardBox02->Image = Cards->Images[52];        // this needs to be a face down picture
+			this->dealerCardBox02->Visible = true;
+		}
+		else if (i == 4)
+		{
+			this->dealerCardBox03->Image = Cards->Images[n];    // this is the actual 2nd card since the one before was just a face down picture with no value
+			this->dealerCardBox03->Visible = false;                // once the player finishes their turn, we assign dealerCardBox03 image to dealerCardBox02
+		}
+	}
+	betPlaced = true;
+}
+private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e) 
+
+{
+	betPlaced = false;
+
+	this->playerCardBox01->Visible = false;
+	this->playerCardBox02->Visible = false;
+	this->playerCardBox03->Visible = false;
+	this->playerCardBox04->Visible = false;
+	this->playerCardBox05->Visible = false;
+	this->playerCardBox06->Visible = false;
+
+	this->dealerCardBox01->Visible = false;
+	this->dealerCardBox02->Visible = false;
+	this->dealerCardBox03->Visible = false;
+	this->dealerCardBox04->Visible = false;
+	this->dealerCardBox05->Visible = false;
+	this->dealerCardBox06->Visible = false;
+
+	for (int i = 0; i < 52; i++)
+	{
+		usedCards[i] = false;
+	}
+
+	playerBetAmount->Text = System::Convert::ToString(0);
 }
 };
 
