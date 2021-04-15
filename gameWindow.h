@@ -53,6 +53,9 @@ namespace blackJack {
 		int hiddenDealerValue{};
 		bool dealerAce1 = false;
 		bool dealerAce2 = false;
+		bool dealerAce3 = false;
+		bool dealerAce4 = false;
+		bool secondAce = false;
 	private: System::Windows::Forms::Button^ reset;
 	protected:
 		array<bool^>^ usedCards;
@@ -1054,7 +1057,7 @@ namespace blackJack {
 				hiddenDealerValue = dealerValue;
 				if (n > 35 && n <= 39)
 				{
-					dealerAce1 = true;
+					dealerHasAce();
 				}
 			}
 			else if (i == 2)
@@ -1079,7 +1082,11 @@ namespace blackJack {
 				dealerValue += totalValue(n);
 				if (n > 35 && n <= 39)
 				{
-					dealerAce2 = true;
+					dealerHasAce();
+					if (!dealerAce2)
+					{
+						secondAce = true;
+					}
 				}
 			}
 		}
@@ -1095,7 +1102,14 @@ namespace blackJack {
 			}
 			else if (dealerAce1)
 			{
-				dealerHandTotal->Text = "1/11";
+				if (secondAce)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(hiddenDealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = "1/11";
+				}
 			}
 			else
 			{
@@ -1150,7 +1164,7 @@ namespace blackJack {
 			this->dealerCardBox03->Visible = true;
 			if (n > 35 && n <= 39)
 			{
-				dealerAce2 = true;
+				dealerHasAce();
 			}
 			addShowDealerHand();
 			if (dealerValue < 17)
@@ -1160,7 +1174,7 @@ namespace blackJack {
 				this->dealerCardBox04->Visible = true;
 				if (n > 35 && n <= 39)
 				{
-					dealerAce2 = true;
+					dealerHasAce();
 				}
 				addShowDealerHand();
 				if (dealerValue < 17)
@@ -1170,7 +1184,7 @@ namespace blackJack {
 					this->dealerCardBox05->Visible = true;
 					if (n > 35 && n <= 39)
 					{
-						dealerAce2 = true;
+						dealerHasAce();
 					}
 					addShowDealerHand();
 					if (dealerValue < 17)
@@ -1180,12 +1194,43 @@ namespace blackJack {
 						this->dealerCardBox06->Visible = true;
 						if (n > 35 && n <= 39)
 						{
-							dealerAce2 = true;
+							dealerHasAce();
 						}
 						addShowDealerHand();
+						if (dealerValue < 17)
+						{
+							newCard();
+							this->dealerCardBox06->Image = Cards->Images[n];
+							this->dealerCardBox06->Visible = true;
+							if (n > 35 && n <= 39)
+							{
+								dealerHasAce();
+							}
+							addShowDealerHand();
+						}
 					}
 				}
 			}
+		}
+	}
+
+	private: void dealerHasAce()
+	{
+		if (!dealerAce1)
+		{
+			dealerAce1 = true;
+		}
+		else if (!dealerAce2)
+		{
+			dealerAce2 = true;
+		}
+		else if (!dealerAce3)
+		{
+			dealerAce3 = true;
+		}
+		else
+		{
+			dealerAce4 = true;
 		}
 	}
 
@@ -1194,12 +1239,17 @@ namespace blackJack {
 		dealerValue += totalValue(n);
 		if (dealerValue > 21)
 		{
-			if (dealerAce1 || dealerAce2)
+			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
 			{
 				softAce = dealerValue - 10;
 				if (dealerValue > 21)
 				{
 					dealerHandTotal->Text = System::Convert::ToString(softAce);
+					dealerValue = softAce;
+				}
+				else if (dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 				}
 				else
 				{
@@ -1218,6 +1268,10 @@ namespace blackJack {
 					dealerValue -= 10;
 					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 				}
+				else if (dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
 				else
 				{
 					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
@@ -1226,12 +1280,13 @@ namespace blackJack {
 		}
 		else
 		{
-			if (dealerAce1 || dealerAce2)
+			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
 			{
 				softAce = dealerValue - 10;
 				if (dealerValue > 21)
 				{
 					dealerHandTotal->Text = System::Convert::ToString(softAce);
+					dealerValue = softAce;
 				}
 				else
 				{
@@ -1311,6 +1366,8 @@ namespace blackJack {
 		dealerBlackjack = false;
 		dealerAce1 = false;
 		dealerAce2 = false;
+		dealerAce3 = false;
+		dealerAce4 = false;
 	}
 
 	private: int totalValue(int n)
