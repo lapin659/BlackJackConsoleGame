@@ -49,6 +49,7 @@ namespace blackJack {
 		int dealerValue{};
 		bool PlayerValue2Exists = false;
 		bool playerAce = false;
+		bool playerAce2 = false;
 		bool dealerBlackjack = false;
 		int hiddenDealerValue{};
 		bool dealerAce1 = false;
@@ -299,22 +300,22 @@ namespace blackJack {
 			// betLabel
 			// 
 			this->betLabel->AutoSize = true;
-			this->betLabel->Font = (gcnew System::Drawing::Font(L"Arial Narrow", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->betLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->betLabel->Location = System::Drawing::Point(504, 442);
 			this->betLabel->Name = L"betLabel";
-			this->betLabel->Size = System::Drawing::Size(66, 25);
+			this->betLabel->Size = System::Drawing::Size(81, 25);
 			this->betLabel->TabIndex = 10;
 			this->betLabel->Text = L"Bet:  $";
 			// 
 			// playerBetAmount
 			// 
 			this->playerBetAmount->AutoSize = true;
-			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Arial Narrow", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->playerBetAmount->Location = System::Drawing::Point(566, 442);
 			this->playerBetAmount->Name = L"playerBetAmount";
-			this->playerBetAmount->Size = System::Drawing::Size(22, 25);
+			this->playerBetAmount->Size = System::Drawing::Size(25, 25);
 			this->playerBetAmount->TabIndex = 11;
 			this->playerBetAmount->Text = L"0";
 			// 
@@ -573,7 +574,7 @@ namespace blackJack {
 			// 
 			// reset
 			// 
-			this->reset->Location = System::Drawing::Point(72, 587);
+			this->reset->Location = System::Drawing::Point(1000, 505);
 			this->reset->Name = L"reset";
 			this->reset->Size = System::Drawing::Size(75, 23);
 			this->reset->TabIndex = 30;
@@ -1067,7 +1068,14 @@ namespace blackJack {
 				playerValue += totalValue(n);
 				if (n > 35 && n <= 39)
 				{
-					playerAce = true;
+					if (!playerAce)
+					{
+						playerAce = true;
+					}
+					else
+					{
+						playerAce2 = true;
+					}
 				}
 			}
 			else if (i == 3)
@@ -1124,7 +1132,13 @@ namespace blackJack {
 
 		if (!dealerBlackjack)
 		{
-			if (playerAce)
+			if (playerAce && playerAce2)
+			{
+				playerValue -= 10;
+				handTotalAmount->Text = "2/" + System::Convert::ToString(playerValue);
+
+			}
+			else if (playerAce)
 			{
 				if (playerValue == 21)
 				{
@@ -1157,6 +1171,11 @@ namespace blackJack {
 		this->dealerCardBox02->Visible = true;
 		dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 
+		if (dealerValue > 21)
+		{
+			dealerValue -= 10;
+			dealerHandTotal->Text = "2/" + System::Convert::ToString(dealerValue);
+		}
 		if (dealerValue < 17)
 		{
 			newCard();
@@ -1246,8 +1265,9 @@ namespace blackJack {
 				{
 					dealerHandTotal->Text = System::Convert::ToString(softAce);
 					dealerValue = softAce;
+					dealerAce1 = false;
 				}
-				else if (dealerValue == 21)
+				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
 				{
 					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 				}
@@ -1287,6 +1307,10 @@ namespace blackJack {
 				{
 					dealerHandTotal->Text = System::Convert::ToString(softAce);
 					dealerValue = softAce;
+				}
+				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 				}
 				else
 				{
@@ -1363,11 +1387,13 @@ namespace blackJack {
 		softAce = 0;
 		PlayerValue2Exists = false;
 		playerAce = false;
+		playerAce2 = false;
 		dealerBlackjack = false;
 		dealerAce1 = false;
 		dealerAce2 = false;
 		dealerAce3 = false;
 		dealerAce4 = false;
+		secondAce = false;
 	}
 
 	private: int totalValue(int n)
