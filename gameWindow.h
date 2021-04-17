@@ -2,8 +2,9 @@
 #include <string>
 #include <cstdlib>
 #include <time.h>
+#include <stdlib.h>
 #include <iostream>
-
+#include <windows.h>
 
 
 
@@ -27,10 +28,10 @@ namespace blackJack {
 		{
 			InitializeComponent();
 			usedCards = gcnew array<bool^> {false, false, false, false, false, false, false, false, false, false, false, false,
-											false, false, false, false, false, false, false, false, false, false, false, false,
-											false, false, false, false, false, false, false, false, false, false, false, false,
-											false, false, false, false, false, false, false, false, false, false, false, false,
-											false, false, false, false};
+				false, false, false, false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false, false, false, false,
+				false, false, false, false};
 			srand(time(NULL));
 
 		}
@@ -42,6 +43,20 @@ namespace blackJack {
 
 	protected:
 		bool betPlaced = false;
+		int n{};
+		int playerValue{};
+		int softAce{};
+		int dealerValue{};
+		bool PlayerValue2Exists = false;
+		bool playerAce = false;
+		bool playerAce2 = false;
+		bool dealerBlackjack = false;
+		int hiddenDealerValue{};
+		bool dealerAce1 = false;
+		bool dealerAce2 = false;
+		bool dealerAce3 = false;
+		bool dealerAce4 = false;
+		bool secondAce = false;
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
 	private: System::Windows::Forms::ToolStripMenuItem^ Options;
@@ -121,14 +136,14 @@ namespace blackJack {
 
 
 	protected:
-		
+
 
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		
+
 
 
 #pragma region Windows Form Designer generated code
@@ -316,24 +331,25 @@ namespace blackJack {
 			// betLabel
 			// 
 			this->betLabel->AutoSize = true;
-			this->betLabel->Font = (gcnew System::Drawing::Font(L"Arial Narrow", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->betLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->betLabel->Location = System::Drawing::Point(756, 680);
 			this->betLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->betLabel->Name = L"betLabel";
-			this->betLabel->Size = System::Drawing::Size(98, 37);
+			this->betLabel->Size = System::Drawing::Size(81, 25);
+>>>>>>> gameWindow.h
 			this->betLabel->TabIndex = 10;
 			this->betLabel->Text = L"Bet:  $";
 			// 
 			// playerBetAmount
 			// 
 			this->playerBetAmount->AutoSize = true;
-			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Arial Narrow", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->playerBetAmount->Location = System::Drawing::Point(849, 680);
 			this->playerBetAmount->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->playerBetAmount->Name = L"playerBetAmount";
-			this->playerBetAmount->Size = System::Drawing::Size(32, 37);
+			this->playerBetAmount->Size = System::Drawing::Size(25, 25);
 			this->playerBetAmount->TabIndex = 11;
 			this->playerBetAmount->Text = L"0";
 			// 
@@ -610,8 +626,7 @@ namespace blackJack {
 			// 
 			// reset
 			// 
-			this->reset->Location = System::Drawing::Point(108, 903);
-			this->reset->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->reset->Location = System::Drawing::Point(1000, 505);
 			this->reset->Name = L"reset";
 			this->reset->Size = System::Drawing::Size(112, 35);
 			this->reset->TabIndex = 30;
@@ -737,154 +752,699 @@ namespace blackJack {
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
 	{
-		
+
 	}
 
 
 
 
-//Betting Buttons
-private: System::Void bet10Button_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	if (betPlaced == true)
+		   //Betting Buttons
+	private: System::Void bet10Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		return;
-	}
-	int result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
-	playerBetAmount->Text = System::Convert::ToString(result);
-	
-}
-private: System::Void bet50Button_Click(System::Object^ sender, System::EventArgs^ e)
-{
-	if (betPlaced == true)
-	{
-		return;
-	}
-	int result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
-	playerBetAmount->Text = System::Convert::ToString(result);
-}
-private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	if (betPlaced == true)
-	{
-		return;
-	}
-	int result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
-	playerBetAmount->Text = System::Convert::ToString(result);
-}
-private: System::Void bet500Button_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	if (betPlaced == true)
-	{
-		return;
-	}
-	int result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
-	playerBetAmount->Text = System::Convert::ToString(result);
-}
-private: System::Void clearBetButton_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	if (betPlaced == true)
-	{
-		return;
-	}
-	playerBetAmount->Text = System::Convert::ToString(0);
-}
+		if (betPlaced == true)
+		{
+			return;
+		}
+		int result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
+		playerBetAmount->Text = System::Convert::ToString(result);
 
-//HIT STAND DOUBLE BUTTONS
-private: System::Void hitButton_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-
-	if (betPlaced == false)
-	{
-		return;
 	}
-	
-	int n;
-	n = rand() % (int)52;
-
-	
-	
-	while (System::Convert::ToBoolean(usedCards[n]) == true)
+	private: System::Void bet50Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (betPlaced == true)
+		{
+			return;
+		}
+		int result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
+		playerBetAmount->Text = System::Convert::ToString(result);
+	}
+	private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		if (betPlaced == true)
+		{
+			return;
+		}
+		int result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
+		playerBetAmount->Text = System::Convert::ToString(result);
+	}
+	private: System::Void bet500Button_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		if (betPlaced == true)
+		{
+			return;
+		}
+		int result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
+		playerBetAmount->Text = System::Convert::ToString(result);
+	}
+	private: System::Void clearBetButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		if (betPlaced == true)
+		{
+			return;
+		}
+		playerBetAmount->Text = System::Convert::ToString(0);
+	}
+
+		   //HIT STAND DOUBLE BUTTONS
+	private: System::Void hitButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+
+		if (betPlaced == false)
+		{
+			return;
+		}
+
+		int n{};
 		n = rand() % (int)52;
+
+
+
+		while (System::Convert::ToBoolean(usedCards[n]) == true)
+		{
+			n = rand() % (int)52;
+		}
+
+		usedCards[n] = true;
+
+
+		if (this->playerCardBox01->Visible == false)
+
+		{
+
+			this->debugText->Text = "box 1";
+			this->playerCardBox01->Image = Cards->Images[n];
+			this->playerCardBox01->Visible = true;
+		}
+
+		else if (this->playerCardBox02->Visible == false)
+		{
+			this->debugText->Text = "box 2";
+			this->playerCardBox02->Image = Cards->Images[n];
+			this->playerCardBox02->Visible = true;
+		}
+
+		else if (this->playerCardBox03->Visible == false)
+		{
+			bool playerAce3 = false;
+			this->debugText->Text = "box 3";
+			this->playerCardBox03->Image = Cards->Images[n];
+			this->playerCardBox03->Visible = true;
+			playerValue += totalValue(n);
+			if (playerAce == true) softAce += totalValue(n);
+			if (n > 35 && n <= 39)
+			{
+				playerAce3 = true;
+				playerAce = true;
+			}
+
+			if (!dealerBlackjack)
+			{
+				if (playerAce3)
+				{
+					if (playerValue == 21)
+					{
+						handTotalAmount->Text = "Blackjack!";
+					}
+					else
+					{
+						softAce = playerValue - 10;
+						handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					}
+				}
+				else
+				{
+					handTotalAmount->Text = System::Convert::ToString(playerValue);
+				}
+			}
+
+			if (playerValue < 21 && (playerAce == true || playerAce3 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce < 11 && playerValue < 21 && (playerAce == true || playerAce3 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce >= 11 && softAce < 21 && (playerAce == true || playerAce3 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce);
+			}
+
+			if (playerValue > 21 && (playerAce == true || playerAce3 == true))
+			{
+				playerValue = softAce;
+				handTotalAmount->Text = System::Convert::ToString(playerValue);
+			}
+
+			if (playerValue == 21)
+			{
+				handTotalAmount->Text = "Blackjack!";
+			}
+
+			if (playerValue > 21)
+			{
+				handTotalAmount->Text = "You bust!";
+			}
+
+
+		}
+
+		else if (this->playerCardBox04->Visible == false)
+		{
+			bool playerAce4 = false;
+			this->debugText->Text = "box 4";
+			this->playerCardBox04->Image = Cards->Images[n];
+			this->playerCardBox04->Visible = true;
+			playerValue += totalValue(n);
+			if (playerAce == true) softAce += totalValue(n);
+			if (n > 35 && n <= 39)
+			{
+				playerAce4 = true;
+				playerAce = true;
+			}
+
+			if (!dealerBlackjack)
+			{
+				if (playerAce4)
+				{
+					if (playerValue == 21)
+					{
+						handTotalAmount->Text = "Blackjack!";
+					}
+					else
+					{
+						softAce = playerValue - 10;
+						handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					}
+				}
+				else
+				{
+					handTotalAmount->Text = System::Convert::ToString(playerValue);
+				}
+			}
+
+			if (playerValue < 21 && (playerAce == true || playerAce4 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce < 11 && playerValue < 21 && (playerAce == true || playerAce4 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce >= 11 && softAce < 21 && (playerAce == true || playerAce4 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce);
+			}
+
+			if (playerValue > 21 && (playerAce == true || playerAce4 == true))
+			{
+				playerValue = softAce;
+				handTotalAmount->Text = System::Convert::ToString(playerValue);
+			}
+
+			if (playerValue == 21)
+			{
+				handTotalAmount->Text = "Blackjack!";
+			}
+
+			if (playerValue > 21)
+			{
+				handTotalAmount->Text = "You bust!";
+			}
+
+
+
+		}
+
+		else if (this->playerCardBox05->Visible == false)
+		{
+			bool playerAce5 = false;
+			this->debugText->Text = "box 5";
+			this->playerCardBox05->Image = Cards->Images[n];
+			this->playerCardBox05->Visible = true;
+			playerValue += totalValue(n);
+			if (playerAce == true) softAce += totalValue(n);
+
+			if (n > 35 && n <= 39)
+			{
+				playerAce5 = true;
+				playerAce = true;
+			}
+
+			if (!dealerBlackjack)
+			{
+				if (playerAce5)
+				{
+					if (playerValue == 21)
+					{
+						handTotalAmount->Text = "Blackjack!";
+					}
+					else
+					{
+						softAce = playerValue - 10;
+						handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					}
+				}
+				else
+				{
+					handTotalAmount->Text = System::Convert::ToString(playerValue);
+				}
+			}
+
+			if (playerValue < 21 && (playerAce == true || playerAce5 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce < 11 && playerValue < 21 && (playerAce == true || playerAce5 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce >= 11 && softAce < 21 && (playerAce == true || playerAce5 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce);
+			}
+
+			if (playerValue > 21 && (playerAce == true || playerAce5 == true))
+			{
+				playerValue = softAce;
+				handTotalAmount->Text = System::Convert::ToString(playerValue);
+			}
+
+			if (playerValue == 21)
+			{
+				handTotalAmount->Text = "Blackjack!";
+			}
+
+			if (playerValue > 21)
+			{
+				handTotalAmount->Text = "You bust!";
+			}
+
+
+		}
+
+		else if (this->playerCardBox06->Visible == false)
+		{
+			bool playerAce6 = false;
+			this->debugText->Text = "box 6";
+			this->playerCardBox06->Image = Cards->Images[n];
+			this->playerCardBox06->Visible = true;
+			playerValue += totalValue(n);
+			if (playerAce == true) softAce += totalValue(n);
+
+			if (n > 35 && n <= 39)
+			{
+				playerAce6 = true;
+				playerAce = true;
+			}
+
+			if (!dealerBlackjack)
+			{
+				if (playerAce6)
+				{
+					if (playerValue == 21)
+					{
+						handTotalAmount->Text = "Blackjack!";
+					}
+					else
+					{
+						softAce = playerValue - 10;
+						handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					}
+				}
+				else
+				{
+					handTotalAmount->Text = System::Convert::ToString(playerValue);
+				}
+			}
+
+			if (playerValue < 21 && (playerAce == true || playerAce6 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce < 11 && playerValue < 21 && (playerAce == true || playerAce6 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+			}
+
+			if (softAce >= 11 && softAce < 21 && (playerAce == true || playerAce6 == true))
+			{
+				handTotalAmount->Text = System::Convert::ToString(softAce);
+			}
+
+			if (playerValue > 21 && (playerAce == true || playerAce6 == true))
+			{
+				playerValue = softAce;
+				handTotalAmount->Text = System::Convert::ToString(playerValue);
+			}
+
+			if (playerValue == 21)
+			{
+				handTotalAmount->Text = "Blackjack!";
+			}
+
+			if (playerValue > 21)
+			{
+				handTotalAmount->Text = "You bust!";
+			}
+
+		}
+		else
+		{
+			this->debugText->Text = "return";
+			return;
+		}
+
 	}
 
-	usedCards[n] = true;
-
-
-	if (this->playerCardBox01->Visible == false)
-
+	private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		
-		this->debugText->Text = "box 1";
-		this->playerCardBox01->Image = Cards->Images[n];
-		this->playerCardBox01->Visible = true;
+		this->debugText->Text = "Double Button Pressed";
 	}
 
-	else if (this->playerCardBox02->Visible == false)
+	private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		this->debugText->Text = "box 2";
-		this->playerCardBox02->Image = Cards->Images[n];
-		this->playerCardBox02->Visible = true;
+		if (betPlaced == true || System::Convert::ToInt16(playerBetAmount->Text) == 0)
+		{
+			return;
+		}
+
+		for (int i = 0; i < 5; i++)
+		{
+			n = rand() % (int)52;
+
+			while (System::Convert::ToBoolean(usedCards[n]) == true)
+			{
+				n = rand() % (int)52;
+			}
+
+			usedCards[n] = true;
+
+			if (i == 0)
+			{
+				this->playerCardBox01->Image = Cards->Images[n];
+				this->playerCardBox01->Visible = true;
+				playerValue = totalValue(n);
+				if (n > 35 && n <= 39)
+				{
+					playerAce = true;
+				}
+			}
+			else if (i == 1)
+			{
+				this->dealerCardBox01->Image = Cards->Images[n];
+				this->dealerCardBox01->Visible = true;
+				dealerValue = totalValue(n);
+				hiddenDealerValue = dealerValue;
+				if (n > 35 && n <= 39)
+				{
+					dealerHasAce();
+				}
+			}
+			else if (i == 2)
+			{
+				this->playerCardBox02->Image = Cards->Images[n];
+				this->playerCardBox02->Visible = true;
+				playerValue += totalValue(n);
+				if (n > 35 && n <= 39)
+				{
+					if (!playerAce)
+					{
+						playerAce = true;
+					}
+					else
+					{
+						playerAce2 = true;
+					}
+				}
+			}
+			else if (i == 3)
+			{
+				this->dealerCardBox02->Image = Cards->Images[52];        // this needs to be a face down picture
+				this->dealerCardBox02->Visible = true;
+			}
+			else if (i == 4)
+			{
+				this->dealerCardBox03->Image = Cards->Images[n];    // this is the actual 2nd card since the one before was just a face down picture with no value
+				this->dealerCardBox03->Visible = false;                // once the player finishes their turn, we assign dealerCardBox03 image to dealerCardBox02
+				dealerValue += totalValue(n);
+				if (n > 35 && n <= 39)
+				{
+					dealerHasAce();
+					if (!dealerAce2)
+					{
+						secondAce = true;
+					}
+				}
+			}
+		}
+		if (dealerAce1 || dealerAce2)
+		{
+			if (dealerValue == 21)
+			{
+				this->dealerCardBox02->Image = this->dealerCardBox03->Image;
+				this->dealerCardBox02->Visible = true;
+				dealerHandTotal->Text = "Blackjack!";
+				handTotalAmount->Text = "You lose!";
+				dealerBlackjack = true;
+			}
+			else if (dealerAce1)
+			{
+				if (secondAce)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(hiddenDealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = "1/11";
+				}
+			}
+			else
+			{
+				dealerHandTotal->Text = System::Convert::ToString(hiddenDealerValue);
+			}
+
+		}
+		else
+		{
+			dealerHandTotal->Text = System::Convert::ToString(hiddenDealerValue);
+		}
+
+		if (!dealerBlackjack)
+		{
+			if (playerAce && playerAce2)
+			{
+				playerValue -= 10;
+				handTotalAmount->Text = "2/" + System::Convert::ToString(playerValue);
+
+			}
+			else if (playerAce)
+			{
+				if (playerValue == 21)
+				{
+					handTotalAmount->Text = "Blackjack!";
+				}
+				else
+				{
+					softAce = playerValue - 10;
+					handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+				}
+			}
+			else
+			{
+				handTotalAmount->Text = System::Convert::ToString(playerValue);
+			}
+		}
+
+		if (dealerBlackjack && playerValue == 21)
+		{
+			handTotalAmount->Text = "Blackjack!";
+		}
+
+		betPlaced = true;
 	}
 
-	else if (this->playerCardBox03->Visible == false)
+	private: System::Void standButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		this->debugText->Text = "box 3";
-		this->playerCardBox03->Image = Cards->Images[n];
-		this->playerCardBox03->Visible = true;
+		this->debugText->Text = "Stand Button Pressed";
+		this->dealerCardBox02->Image = this->dealerCardBox03->Image;
+		this->dealerCardBox02->Visible = true;
+		dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+
+		if (dealerValue > 21)
+		{
+			dealerValue -= 10;
+			dealerHandTotal->Text = "2/" + System::Convert::ToString(dealerValue);
+		}
+		if (dealerValue < 17)
+		{
+			newCard();
+			this->dealerCardBox03->Image = Cards->Images[n];
+			this->dealerCardBox03->Visible = true;
+			if (n > 35 && n <= 39)
+			{
+				dealerHasAce();
+			}
+			addShowDealerHand();
+			if (dealerValue < 17)
+			{
+				newCard();
+				this->dealerCardBox04->Image = Cards->Images[n];
+				this->dealerCardBox04->Visible = true;
+				if (n > 35 && n <= 39)
+				{
+					dealerHasAce();
+				}
+				addShowDealerHand();
+				if (dealerValue < 17)
+				{
+					newCard();
+					this->dealerCardBox05->Image = Cards->Images[n];
+					this->dealerCardBox05->Visible = true;
+					if (n > 35 && n <= 39)
+					{
+						dealerHasAce();
+					}
+					addShowDealerHand();
+					if (dealerValue < 17)
+					{
+						newCard();
+						this->dealerCardBox06->Image = Cards->Images[n];
+						this->dealerCardBox06->Visible = true;
+						if (n > 35 && n <= 39)
+						{
+							dealerHasAce();
+						}
+						addShowDealerHand();
+						if (dealerValue < 17)
+						{
+							newCard();
+							this->dealerCardBox06->Image = Cards->Images[n];
+							this->dealerCardBox06->Visible = true;
+							if (n > 35 && n <= 39)
+							{
+								dealerHasAce();
+							}
+							addShowDealerHand();
+						}
+					}
+				}
+			}
+		}
 	}
 
-	else if (this->playerCardBox04->Visible == false)
+	private: void dealerHasAce()
 	{
-		this->debugText->Text = "box 4";
-		this->playerCardBox04->Image = Cards->Images[n];
-		this->playerCardBox04->Visible = true;
+		if (!dealerAce1)
+		{
+			dealerAce1 = true;
+		}
+		else if (!dealerAce2)
+		{
+			dealerAce2 = true;
+		}
+		else if (!dealerAce3)
+		{
+			dealerAce3 = true;
+		}
+		else
+		{
+			dealerAce4 = true;
+		}
 	}
 
-	else if (this->playerCardBox05->Visible == false)
+	private: void addShowDealerHand()
 	{
-		this->debugText->Text = "box 5";
-		this->playerCardBox05->Image = Cards->Images[n];
-		this->playerCardBox05->Visible = true;
+		dealerValue += totalValue(n);
+		if (dealerValue > 21)
+		{
+			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
+			{
+				softAce = dealerValue - 10;
+				if (dealerValue > 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(softAce);
+					dealerValue = softAce;
+					dealerAce1 = false;
+				}
+				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
+				}
+			}
+			else
+			{
+				dealerHandTotal->Text = "Dealer Busts!";
+			}
+			if (dealerAce1 && dealerAce2)
+			{
+				softAce = dealerValue - 10;
+				if (dealerValue > 21)
+				{
+					dealerValue -= 10;
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+				else if (dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+			}
+		}
+		else
+		{
+			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
+			{
+				softAce = dealerValue - 10;
+				if (dealerValue > 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(softAce);
+					dealerValue = softAce;
+				}
+				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
+				}
+			}
+			else
+			{
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+			}
+			if (dealerAce1 && dealerAce2)
+			{
+				softAce = dealerValue - 10;
+				if (dealerValue > 21)
+				{
+					dealerValue -= 10;
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+				else
+				{
+					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				}
+			}
+		}
 	}
 
-	else if (this->playerCardBox06->Visible == false)
-	{
-		this->debugText->Text = "box 6";
-		this->playerCardBox06->Image = Cards->Images[n];
-		this->playerCardBox06->Visible = true;
-	}
-	else
-	{
-		this->debugText->Text = "return";
-		return;
-	}
-	
-}
-
-private: System::Void standButton_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-		   this->debugText->Text = "Stand Button Pressed";
-
-}
-
-
-private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	this->debugText->Text = "Double Button Pressed";
-}
-
-private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ e) 
-{
-	if (betPlaced == true || System::Convert::ToInt16(playerBetAmount->Text) == 0)
-	{
-		return;
-	}
-	
-	int n;
-
-	for (int i = 0; i < 5; i++)
+	private: int newCard()
 	{
 		n = rand() % (int)52;
 
@@ -895,61 +1455,71 @@ private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ 
 
 		usedCards[n] = true;
 
-		if (i == 0)
-		{
-			this->playerCardBox01->Image = Cards->Images[n];
-			this->playerCardBox01->Visible = true;
-		}
-		else if (i == 1)
-		{
-			this->dealerCardBox01->Image = Cards->Images[n];
-			this->dealerCardBox01->Visible = true;
-		}
-		else if (i == 2)
-		{
-			this->playerCardBox02->Image = Cards->Images[n];
-			this->playerCardBox02->Visible = true;
-		}
-		else if (i == 3)
-		{
-			this->dealerCardBox02->Image = Cards->Images[52];        // this needs to be a face down picture
-			this->dealerCardBox02->Visible = true;
-		}
-		else if (i == 4)
-		{
-			this->dealerCardBox03->Image = Cards->Images[n];    // this is the actual 2nd card since the one before was just a face down picture with no value
-			this->dealerCardBox03->Visible = false;                // once the player finishes their turn, we assign dealerCardBox03 image to dealerCardBox02
-		}
+		return n;
 	}
-	betPlaced = true;
-}
-private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e) 
 
-{
-	betPlaced = false;
+	private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e)
 
-	this->playerCardBox01->Visible = false;
-	this->playerCardBox02->Visible = false;
-	this->playerCardBox03->Visible = false;
-	this->playerCardBox04->Visible = false;
-	this->playerCardBox05->Visible = false;
-	this->playerCardBox06->Visible = false;
-
-	this->dealerCardBox01->Visible = false;
-	this->dealerCardBox02->Visible = false;
-	this->dealerCardBox03->Visible = false;
-	this->dealerCardBox04->Visible = false;
-	this->dealerCardBox05->Visible = false;
-	this->dealerCardBox06->Visible = false;
-
-	for (int i = 0; i < 52; i++)
 	{
-		usedCards[i] = false;
+		resetExecute();
 	}
 
-	playerBetAmount->Text = System::Convert::ToString(0);
-}
+	private: void resetExecute()
+	{
+		betPlaced = false;
 
+		this->playerCardBox01->Visible = false;
+		this->playerCardBox02->Visible = false;
+		this->playerCardBox03->Visible = false;
+		this->playerCardBox04->Visible = false;
+		this->playerCardBox05->Visible = false;
+		this->playerCardBox06->Visible = false;
+
+		this->dealerCardBox01->Visible = false;
+		this->dealerCardBox02->Visible = false;
+		this->dealerCardBox03->Visible = false;
+		this->dealerCardBox04->Visible = false;
+		this->dealerCardBox05->Visible = false;
+		this->dealerCardBox06->Visible = false;
+
+		for (int i = 0; i < 52; i++)
+		{
+			usedCards[i] = false;
+		}
+		handTotalAmount->Text = System::Convert::ToString(0);
+		dealerHandTotal->Text = System::Convert::ToString(0);
+		playerBetAmount->Text = System::Convert::ToString(0);
+		n = 0;
+		playerValue = 0;
+		softAce = 0;
+		PlayerValue2Exists = false;
+		playerAce = false;
+		playerAce2 = false;
+		dealerBlackjack = false;
+		dealerAce1 = false;
+		dealerAce2 = false;
+		dealerAce3 = false;
+		dealerAce4 = false;
+		secondAce = false;
+	}
+
+	private: int totalValue(int n)
+	{
+		int value{};
+		if (n <= 3) value = 2;
+		else if (n > 3 && n <= 7) value = 3;
+		else if (n > 7 && n <= 11) value = 4;
+		else if (n > 11 && n <= 15) value = 5;
+		else if (n > 15 && n <= 19) value = 6;
+		else if (n > 19 && n <= 23) value = 7;
+		else if (n > 23 && n <= 27) value = 8;
+		else if (n > 27 && n <= 31) value = 9;
+		else if (n > 31 && n <= 35) value = 10;
+		else if (n > 35 && n <= 39) value = 11;
+		else if (n > 39 && n <= 51) value = 10;
+
+		return value;
+	}
 
 //Options Menu Bar
 private: System::Void toolStripMenuItem1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -969,6 +1539,5 @@ private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object
 
 
 };
-
 
 }
