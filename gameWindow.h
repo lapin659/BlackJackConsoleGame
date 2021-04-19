@@ -33,6 +33,7 @@ namespace blackJack {
 				false, false, false, false, false, false, false, false, false, false, false, false,
 				false, false, false, false};
 			srand(time(NULL));
+			playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
 		}
 	private: System::Windows::Forms::Button^ placeBet;
@@ -42,7 +43,9 @@ namespace blackJack {
 
 
 	protected:
+		int playerCashTotal = 5000;
 		bool betPlaced = false;
+		bool roundOver = false;
 		int n{};
 		int playerValue{};
 		int softAce{};
@@ -214,10 +217,9 @@ namespace blackJack {
 			this->hitButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->hitButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->hitButton->Location = System::Drawing::Point(442, 1171);
-			this->hitButton->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->hitButton->Location = System::Drawing::Point(295, 761);
 			this->hitButton->Name = L"hitButton";
-			this->hitButton->Size = System::Drawing::Size(160, 80);
+			this->hitButton->Size = System::Drawing::Size(107, 52);
 			this->hitButton->TabIndex = 0;
 			this->hitButton->Text = L"Hit";
 			this->hitButton->UseVisualStyleBackColor = true;
@@ -230,10 +232,9 @@ namespace blackJack {
 			this->standButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->standButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->standButton->Location = System::Drawing::Point(780, 1171);
-			this->standButton->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->standButton->Location = System::Drawing::Point(520, 761);
 			this->standButton->Name = L"standButton";
-			this->standButton->Size = System::Drawing::Size(160, 80);
+			this->standButton->Size = System::Drawing::Size(107, 52);
 			this->standButton->TabIndex = 1;
 			this->standButton->Text = L"Stand";
 			this->standButton->UseVisualStyleBackColor = true;
@@ -246,10 +247,9 @@ namespace blackJack {
 			this->doubleButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->doubleButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->doubleButton->Location = System::Drawing::Point(1132, 1171);
-			this->doubleButton->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->doubleButton->Location = System::Drawing::Point(755, 761);
 			this->doubleButton->Name = L"doubleButton";
-			this->doubleButton->Size = System::Drawing::Size(160, 80);
+			this->doubleButton->Size = System::Drawing::Size(107, 52);
 			this->doubleButton->TabIndex = 2;
 			this->doubleButton->Text = L"Double";
 			this->doubleButton->UseVisualStyleBackColor = true;
@@ -261,69 +261,62 @@ namespace blackJack {
 			this->totalCashLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->totalCashLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->totalCashLabel->Location = System::Drawing::Point(700, 1071);
-			this->totalCashLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->totalCashLabel->Location = System::Drawing::Point(467, 696);
 			this->totalCashLabel->Name = L"totalCashLabel";
-			this->totalCashLabel->Size = System::Drawing::Size(232, 37);
+			this->totalCashLabel->Size = System::Drawing::Size(160, 25);
 			this->totalCashLabel->TabIndex = 3;
 			this->totalCashLabel->Text = L"Total Cash:  $";
 			// 
 			// playerCardBox05
 			// 
-			this->playerCardBox05->Location = System::Drawing::Point(1056, 777);
-			this->playerCardBox05->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox05->Location = System::Drawing::Point(704, 505);
 			this->playerCardBox05->Name = L"playerCardBox05";
-			this->playerCardBox05->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox05->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox05->TabIndex = 4;
 			this->playerCardBox05->TabStop = false;
 			this->playerCardBox05->Visible = false;
 			// 
 			// playerCardBox01
 			// 
-			this->playerCardBox01->Location = System::Drawing::Point(668, 777);
-			this->playerCardBox01->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox01->Location = System::Drawing::Point(445, 505);
 			this->playerCardBox01->Name = L"playerCardBox01";
-			this->playerCardBox01->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox01->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox01->TabIndex = 5;
 			this->playerCardBox01->TabStop = false;
 			this->playerCardBox01->Visible = false;
 			// 
 			// playerCardBox02
 			// 
-			this->playerCardBox02->Location = System::Drawing::Point(754, 777);
-			this->playerCardBox02->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox02->Location = System::Drawing::Point(503, 505);
 			this->playerCardBox02->Name = L"playerCardBox02";
-			this->playerCardBox02->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox02->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox02->TabIndex = 6;
 			this->playerCardBox02->TabStop = false;
 			this->playerCardBox02->Visible = false;
 			// 
 			// playerCardBox03
 			// 
-			this->playerCardBox03->Location = System::Drawing::Point(848, 777);
-			this->playerCardBox03->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox03->Location = System::Drawing::Point(565, 505);
 			this->playerCardBox03->Name = L"playerCardBox03";
-			this->playerCardBox03->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox03->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox03->TabIndex = 7;
 			this->playerCardBox03->TabStop = false;
 			this->playerCardBox03->Visible = false;
 			// 
 			// playerCardBox04
 			// 
-			this->playerCardBox04->Location = System::Drawing::Point(950, 777);
-			this->playerCardBox04->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox04->Location = System::Drawing::Point(633, 505);
 			this->playerCardBox04->Name = L"playerCardBox04";
-			this->playerCardBox04->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox04->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox04->TabIndex = 8;
 			this->playerCardBox04->TabStop = false;
 			this->playerCardBox04->Visible = false;
 			// 
 			// playerCardBox06
 			// 
-			this->playerCardBox06->Location = System::Drawing::Point(1137, 777);
-			this->playerCardBox06->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->playerCardBox06->Location = System::Drawing::Point(758, 505);
 			this->playerCardBox06->Name = L"playerCardBox06";
-			this->playerCardBox06->Size = System::Drawing::Size(158, 245);
+			this->playerCardBox06->Size = System::Drawing::Size(105, 159);
 			this->playerCardBox06->TabIndex = 9;
 			this->playerCardBox06->TabStop = false;
 			this->playerCardBox06->Visible = false;
@@ -333,11 +326,9 @@ namespace blackJack {
 			this->betLabel->AutoSize = true;
 			this->betLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->betLabel->Location = System::Drawing::Point(756, 680);
-			this->betLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->betLabel->Location = System::Drawing::Point(504, 442);
 			this->betLabel->Name = L"betLabel";
 			this->betLabel->Size = System::Drawing::Size(81, 25);
->>>>>>> gameWindow.h
 			this->betLabel->TabIndex = 10;
 			this->betLabel->Text = L"Bet:  $";
 			// 
@@ -346,8 +337,7 @@ namespace blackJack {
 			this->playerBetAmount->AutoSize = true;
 			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->playerBetAmount->Location = System::Drawing::Point(849, 680);
-			this->playerBetAmount->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->playerBetAmount->Location = System::Drawing::Point(566, 442);
 			this->playerBetAmount->Name = L"playerBetAmount";
 			this->playerBetAmount->Size = System::Drawing::Size(25, 25);
 			this->playerBetAmount->TabIndex = 11;
@@ -357,10 +347,9 @@ namespace blackJack {
 			// 
 			this->bet10Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet10Button->Location = System::Drawing::Point(988, 680);
-			this->bet10Button->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->bet10Button->Location = System::Drawing::Point(659, 442);
 			this->bet10Button->Name = L"bet10Button";
-			this->bet10Button->Size = System::Drawing::Size(96, 45);
+			this->bet10Button->Size = System::Drawing::Size(64, 29);
 			this->bet10Button->TabIndex = 12;
 			this->bet10Button->Text = L"$10";
 			this->bet10Button->UseVisualStyleBackColor = true;
@@ -370,10 +359,9 @@ namespace blackJack {
 			// 
 			this->bet50Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet50Button->Location = System::Drawing::Point(1114, 680);
-			this->bet50Button->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->bet50Button->Location = System::Drawing::Point(743, 442);
 			this->bet50Button->Name = L"bet50Button";
-			this->bet50Button->Size = System::Drawing::Size(96, 45);
+			this->bet50Button->Size = System::Drawing::Size(64, 29);
 			this->bet50Button->TabIndex = 13;
 			this->bet50Button->Text = L"$50";
 			this->bet50Button->UseVisualStyleBackColor = true;
@@ -383,10 +371,9 @@ namespace blackJack {
 			// 
 			this->bet100Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet100Button->Location = System::Drawing::Point(1248, 680);
-			this->bet100Button->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->bet100Button->Location = System::Drawing::Point(832, 442);
 			this->bet100Button->Name = L"bet100Button";
-			this->bet100Button->Size = System::Drawing::Size(96, 45);
+			this->bet100Button->Size = System::Drawing::Size(64, 29);
 			this->bet100Button->TabIndex = 14;
 			this->bet100Button->Text = L"$100";
 			this->bet100Button->UseVisualStyleBackColor = true;
@@ -396,10 +383,9 @@ namespace blackJack {
 			// 
 			this->bet500Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet500Button->Location = System::Drawing::Point(1376, 680);
-			this->bet500Button->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->bet500Button->Location = System::Drawing::Point(917, 442);
 			this->bet500Button->Name = L"bet500Button";
-			this->bet500Button->Size = System::Drawing::Size(96, 45);
+			this->bet500Button->Size = System::Drawing::Size(64, 29);
 			this->bet500Button->TabIndex = 15;
 			this->bet500Button->Text = L"$500";
 			this->bet500Button->UseVisualStyleBackColor = true;
@@ -409,10 +395,9 @@ namespace blackJack {
 			// 
 			this->clearBetButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->clearBetButton->Location = System::Drawing::Point(464, 680);
-			this->clearBetButton->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->clearBetButton->Location = System::Drawing::Point(309, 442);
 			this->clearBetButton->Name = L"clearBetButton";
-			this->clearBetButton->Size = System::Drawing::Size(162, 45);
+			this->clearBetButton->Size = System::Drawing::Size(108, 29);
 			this->clearBetButton->TabIndex = 16;
 			this->clearBetButton->Text = L"Clear Bet";
 			this->clearBetButton->UseVisualStyleBackColor = true;
@@ -424,12 +409,12 @@ namespace blackJack {
 			this->playerTotalCashAmount->BackColor = System::Drawing::Color::Chartreuse;
 			this->playerTotalCashAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->playerTotalCashAmount->Location = System::Drawing::Point(934, 1071);
-			this->playerTotalCashAmount->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->playerTotalCashAmount->Location = System::Drawing::Point(623, 696);
 			this->playerTotalCashAmount->Name = L"playerTotalCashAmount";
-			this->playerTotalCashAmount->Size = System::Drawing::Size(36, 37);
+			this->playerTotalCashAmount->Size = System::Drawing::Size(25, 25);
 			this->playerTotalCashAmount->TabIndex = 17;
 			this->playerTotalCashAmount->Text = L"0";
+			
 			// 
 			// Cards
 			// 
@@ -494,69 +479,62 @@ namespace blackJack {
 			this->debugText->AutoSize = true;
 			this->debugText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->debugText->Location = System::Drawing::Point(1392, 858);
-			this->debugText->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->debugText->Location = System::Drawing::Point(928, 558);
 			this->debugText->Name = L"debugText";
-			this->debugText->Size = System::Drawing::Size(99, 37);
+			this->debugText->Size = System::Drawing::Size(66, 25);
 			this->debugText->TabIndex = 18;
 			this->debugText->Text = L"TEST";
 			// 
 			// dealerCardBox03
 			// 
-			this->dealerCardBox03->Location = System::Drawing::Point(813, 78);
-			this->dealerCardBox03->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox03->Location = System::Drawing::Point(542, 51);
 			this->dealerCardBox03->Name = L"dealerCardBox03";
-			this->dealerCardBox03->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox03->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox03->TabIndex = 22;
 			this->dealerCardBox03->TabStop = false;
 			this->dealerCardBox03->Visible = false;
 			// 
 			// dealerCardBox02
 			// 
-			this->dealerCardBox02->Location = System::Drawing::Point(720, 78);
-			this->dealerCardBox02->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox02->Location = System::Drawing::Point(480, 51);
 			this->dealerCardBox02->Name = L"dealerCardBox02";
-			this->dealerCardBox02->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox02->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox02->TabIndex = 21;
 			this->dealerCardBox02->TabStop = false;
 			this->dealerCardBox02->Visible = false;
 			// 
 			// dealerCardBox01
 			// 
-			this->dealerCardBox01->Location = System::Drawing::Point(633, 78);
-			this->dealerCardBox01->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox01->Location = System::Drawing::Point(422, 51);
 			this->dealerCardBox01->Name = L"dealerCardBox01";
-			this->dealerCardBox01->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox01->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox01->TabIndex = 20;
 			this->dealerCardBox01->TabStop = false;
 			this->dealerCardBox01->Visible = false;
 			// 
 			// dealerCardBox04
 			// 
-			this->dealerCardBox04->Location = System::Drawing::Point(915, 78);
-			this->dealerCardBox04->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox04->Location = System::Drawing::Point(610, 51);
 			this->dealerCardBox04->Name = L"dealerCardBox04";
-			this->dealerCardBox04->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox04->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox04->TabIndex = 23;
 			this->dealerCardBox04->TabStop = false;
 			this->dealerCardBox04->Visible = false;
 			// 
 			// dealerCardBox05
 			// 
-			this->dealerCardBox05->Location = System::Drawing::Point(1022, 78);
-			this->dealerCardBox05->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox05->Location = System::Drawing::Point(681, 51);
 			this->dealerCardBox05->Name = L"dealerCardBox05";
-			this->dealerCardBox05->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox05->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox05->TabIndex = 19;
 			this->dealerCardBox05->TabStop = false;
 			this->dealerCardBox05->Visible = false;
 			// 
 			// dealerCardBox06
 			// 
-			this->dealerCardBox06->Location = System::Drawing::Point(1102, 78);
-			this->dealerCardBox06->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->dealerCardBox06->Location = System::Drawing::Point(735, 51);
 			this->dealerCardBox06->Name = L"dealerCardBox06";
-			this->dealerCardBox06->Size = System::Drawing::Size(158, 245);
+			this->dealerCardBox06->Size = System::Drawing::Size(105, 159);
 			this->dealerCardBox06->TabIndex = 24;
 			this->dealerCardBox06->TabStop = false;
 			this->dealerCardBox06->Visible = false;
@@ -567,10 +545,9 @@ namespace blackJack {
 			this->handTotalAmount->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalAmount->Location = System::Drawing::Point(981, 605);
-			this->handTotalAmount->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->handTotalAmount->Location = System::Drawing::Point(654, 393);
 			this->handTotalAmount->Name = L"handTotalAmount";
-			this->handTotalAmount->Size = System::Drawing::Size(36, 37);
+			this->handTotalAmount->Size = System::Drawing::Size(25, 25);
 			this->handTotalAmount->TabIndex = 26;
 			this->handTotalAmount->Text = L"0";
 			// 
@@ -580,10 +557,9 @@ namespace blackJack {
 			this->handTotalLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalLabel->Location = System::Drawing::Point(712, 605);
-			this->handTotalLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->handTotalLabel->Location = System::Drawing::Point(475, 393);
 			this->handTotalLabel->Name = L"handTotalLabel";
-			this->handTotalLabel->Size = System::Drawing::Size(258, 37);
+			this->handTotalLabel->Size = System::Drawing::Size(179, 25);
 			this->handTotalLabel->TabIndex = 25;
 			this->handTotalLabel->Text = L"My Hand Total: ";
 			// 
@@ -593,10 +569,9 @@ namespace blackJack {
 			this->dealerHandTotal->BackColor = System::Drawing::Color::Chartreuse;
 			this->dealerHandTotal->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dealerHandTotal->Location = System::Drawing::Point(981, 514);
-			this->dealerHandTotal->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->dealerHandTotal->Location = System::Drawing::Point(654, 334);
 			this->dealerHandTotal->Name = L"dealerHandTotal";
-			this->dealerHandTotal->Size = System::Drawing::Size(36, 37);
+			this->dealerHandTotal->Size = System::Drawing::Size(25, 25);
 			this->dealerHandTotal->TabIndex = 28;
 			this->dealerHandTotal->Text = L"0";
 			// 
@@ -606,19 +581,17 @@ namespace blackJack {
 			this->dealerHandLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->dealerHandLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dealerHandLabel->Location = System::Drawing::Point(660, 514);
-			this->dealerHandLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+			this->dealerHandLabel->Location = System::Drawing::Point(440, 334);
 			this->dealerHandLabel->Name = L"dealerHandLabel";
-			this->dealerHandLabel->Size = System::Drawing::Size(314, 37);
+			this->dealerHandLabel->Size = System::Drawing::Size(217, 25);
 			this->dealerHandLabel->TabIndex = 27;
 			this->dealerHandLabel->Text = L"Dealer Hand Total: ";
 			// 
 			// placeBet
 			// 
-			this->placeBet->Location = System::Drawing::Point(1500, 689);
-			this->placeBet->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->placeBet->Location = System::Drawing::Point(1000, 448);
 			this->placeBet->Name = L"placeBet";
-			this->placeBet->Size = System::Drawing::Size(112, 35);
+			this->placeBet->Size = System::Drawing::Size(75, 23);
 			this->placeBet->TabIndex = 29;
 			this->placeBet->Text = L"Place Bet";
 			this->placeBet->UseVisualStyleBackColor = true;
@@ -626,9 +599,10 @@ namespace blackJack {
 			// 
 			// reset
 			// 
-			this->reset->Location = System::Drawing::Point(1000, 505);
+			this->reset->Location = System::Drawing::Point(1000, 352);
+			this->reset->Margin = System::Windows::Forms::Padding(2);
 			this->reset->Name = L"reset";
-			this->reset->Size = System::Drawing::Size(112, 35);
+			this->reset->Size = System::Drawing::Size(75, 23);
 			this->reset->TabIndex = 30;
 			this->reset->Text = L"Debug reset\r\n";
 			this->reset->UseVisualStyleBackColor = true;
@@ -636,12 +610,12 @@ namespace blackJack {
 			// 
 			// MenuBar
 			// 
-			this->MenuBar->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
 			this->MenuBar->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->MenuBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) { this->Options, this->quitToolStripMenuItem });
-			this->MenuBar->Location = System::Drawing::Point(15, 0);
+			this->MenuBar->Location = System::Drawing::Point(10, 0);
 			this->MenuBar->Name = L"MenuBar";
-			this->MenuBar->Size = System::Drawing::Size(1866, 56);
+			this->MenuBar->Padding = System::Windows::Forms::Padding(4, 1, 0, 1);
+			this->MenuBar->Size = System::Drawing::Size(1368, 38);
 			this->MenuBar->TabIndex = 34;
 			// 
 			// Options
@@ -653,7 +627,7 @@ namespace blackJack {
 			this->Options->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Options->Name = L"Options";
-			this->Options->Size = System::Drawing::Size(184, 52);
+			this->Options->Size = System::Drawing::Size(131, 36);
 			this->Options->Text = L"Options";
 			this->Options->Click += gcnew System::EventHandler(this, &gameWindow::toolStripMenuItem1_Click);
 			// 
@@ -662,7 +636,7 @@ namespace blackJack {
 			this->changeGameParametersToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->changeGameParametersToolStripMenuItem->Name = L"changeGameParametersToolStripMenuItem";
-			this->changeGameParametersToolStripMenuItem->Size = System::Drawing::Size(502, 44);
+			this->changeGameParametersToolStripMenuItem->Size = System::Drawing::Size(344, 30);
 			this->changeGameParametersToolStripMenuItem->Text = L"Change Game Parameters";
 			this->changeGameParametersToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::changeGameParametersToolStripMenuItem_Click);
 			// 
@@ -671,7 +645,7 @@ namespace blackJack {
 			this->viewLeaderboardToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->viewLeaderboardToolStripMenuItem->Name = L"viewLeaderboardToolStripMenuItem";
-			this->viewLeaderboardToolStripMenuItem->Size = System::Drawing::Size(502, 44);
+			this->viewLeaderboardToolStripMenuItem->Size = System::Drawing::Size(344, 30);
 			this->viewLeaderboardToolStripMenuItem->Text = L"View Leaderboard";
 			// 
 			// quitToolStripMenuItem
@@ -680,18 +654,18 @@ namespace blackJack {
 			this->quitToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->quitToolStripMenuItem->Name = L"quitToolStripMenuItem";
-			this->quitToolStripMenuItem->Size = System::Drawing::Size(114, 52);
+			this->quitToolStripMenuItem->Size = System::Drawing::Size(82, 36);
 			this->quitToolStripMenuItem->Text = L"Quit";
 			this->quitToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::quitToolStripMenuItem_Click);
 			// 
 			// gameWindow
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::Color::Green;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->ClientSize = System::Drawing::Size(1896, 1417);
+			this->ClientSize = System::Drawing::Size(1388, 796);
 			this->Controls->Add(this->reset);
 			this->Controls->Add(this->placeBet);
 			this->Controls->Add(this->dealerHandTotal);
@@ -726,9 +700,8 @@ namespace blackJack {
 			this->Controls->Add(this->MenuBar);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MainMenuStrip = this->MenuBar;
-			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"gameWindow";
-			this->Padding = System::Windows::Forms::Padding(15, 0, 15, 0);
+			this->Padding = System::Windows::Forms::Padding(10, 0, 10, 0);
 			this->Text = L"gameWindow";
 			this->Load += gcnew System::EventHandler(this, &gameWindow::gameWindow_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->EndInit();
@@ -754,6 +727,8 @@ namespace blackJack {
 	{
 
 	}
+
+
 
 
 
@@ -809,7 +784,7 @@ namespace blackJack {
 	private: System::Void hitButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 
-		if (betPlaced == false)
+		if (betPlaced == false || roundOver == true)
 		{
 			return;
 		}
@@ -864,6 +839,8 @@ namespace blackJack {
 					if (playerValue == 21)
 					{
 						handTotalAmount->Text = "Blackjack!";
+						playerWins();
+						roundOver = true;
 					}
 					else
 					{
@@ -901,11 +878,14 @@ namespace blackJack {
 			if (playerValue == 21)
 			{
 				handTotalAmount->Text = "Blackjack!";
+				playerWins();
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "You bust!";
+				roundOver = true;
 			}
 
 
@@ -932,6 +912,8 @@ namespace blackJack {
 					if (playerValue == 21)
 					{
 						handTotalAmount->Text = "Blackjack!";
+						playerWins();
+						roundOver = true;
 					}
 					else
 					{
@@ -969,11 +951,14 @@ namespace blackJack {
 			if (playerValue == 21)
 			{
 				handTotalAmount->Text = "Blackjack!";
+				playerWins();
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "You bust!";
+				roundOver = true;
 			}
 
 
@@ -1002,6 +987,8 @@ namespace blackJack {
 					if (playerValue == 21)
 					{
 						handTotalAmount->Text = "Blackjack!";
+						playerWins();
+						roundOver = true;
 					}
 					else
 					{
@@ -1039,11 +1026,14 @@ namespace blackJack {
 			if (playerValue == 21)
 			{
 				handTotalAmount->Text = "Blackjack!";
+				playerWins();
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "You bust!";
+				roundOver = true;
 			}
 
 
@@ -1071,6 +1061,8 @@ namespace blackJack {
 					if (playerValue == 21)
 					{
 						handTotalAmount->Text = "Blackjack!";
+						playerWins();
+						roundOver = true;
 					}
 					else
 					{
@@ -1108,11 +1100,14 @@ namespace blackJack {
 			if (playerValue == 21)
 			{
 				handTotalAmount->Text = "Blackjack!";
+				playerWins();
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "You bust!";
+				roundOver = true;
 			}
 
 		}
@@ -1126,6 +1121,11 @@ namespace blackJack {
 
 	private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (betPlaced == false || roundOver == true)
+		{
+			return;
+		}
+
 		this->debugText->Text = "Double Button Pressed";
 	}
 
@@ -1135,6 +1135,9 @@ namespace blackJack {
 		{
 			return;
 		}
+
+		playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text);
+		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -1213,6 +1216,7 @@ namespace blackJack {
 				this->dealerCardBox02->Visible = true;
 				dealerHandTotal->Text = "Blackjack!";
 				handTotalAmount->Text = "You lose!";
+				roundOver = true;
 				dealerBlackjack = true;
 			}
 			else if (dealerAce1)
@@ -1250,6 +1254,8 @@ namespace blackJack {
 				if (playerValue == 21)
 				{
 					handTotalAmount->Text = "Blackjack!";
+					playerWins();
+					roundOver = true;
 				}
 				else
 				{
@@ -1266,6 +1272,8 @@ namespace blackJack {
 		if (dealerBlackjack && playerValue == 21)
 		{
 			handTotalAmount->Text = "Blackjack!";
+			playerWins();
+			roundOver = true;
 		}
 
 		betPlaced = true;
@@ -1274,6 +1282,11 @@ namespace blackJack {
 	private: System::Void standButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->debugText->Text = "Stand Button Pressed";
+		if (betPlaced == false || roundOver == true)
+		{
+			return;
+		}
+
 		this->dealerCardBox02->Image = this->dealerCardBox03->Image;
 		this->dealerCardBox02->Visible = true;
 		dealerHandTotal->Text = System::Convert::ToString(dealerValue);
@@ -1333,11 +1346,32 @@ namespace blackJack {
 								dealerHasAce();
 							}
 							addShowDealerHand();
+
 						}
 					}
 				}
 			}
 		}
+		if (roundOver == false)
+		{
+			if (handTotalAmount->Text == "Blackjack!")
+			{
+				playerWins();
+				roundOver = true;
+			}
+			else if (dealerHandTotal->Text == "Dealer Busts!")
+			{
+				playerWins();
+				roundOver = true;
+			}
+			else if (System::Convert::ToInt16(handTotalAmount->Text) > softAce && System::Convert::ToInt16(handTotalAmount->Text) > dealerValue)
+			{
+				playerWins();
+				roundOver = true;
+			}
+			roundOver = true;
+		}
+		
 	}
 
 	private: void dealerHasAce()
@@ -1501,6 +1535,13 @@ namespace blackJack {
 		dealerAce3 = false;
 		dealerAce4 = false;
 		secondAce = false;
+		roundOver = false;
+	}
+
+	private: void playerWins()
+	{
+		playerCashTotal += 2*System::Convert::ToInt16(playerBetAmount->Text);
+		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 	}
 
 	private: int totalValue(int n)
@@ -1536,6 +1577,7 @@ private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object
 	setPlayer.ShowDialog();
 	//setPlayer.Controls->Add(this->enterPlayerNum);
 }
+
 
 
 };
