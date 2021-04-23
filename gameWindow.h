@@ -6,8 +6,8 @@
 #include <iostream>
 #include <windows.h>
 
-
-
+#using <system.windows.forms.dll>
+#using <Microsoft.VisualBasic.dll>
 namespace blackJack {
 
 	using namespace System;
@@ -63,19 +63,19 @@ namespace blackJack {
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
 	private: System::Windows::Forms::ToolStripMenuItem^ Options;
-
 	private: System::Windows::Forms::ToolStripMenuItem^ viewLeaderboardToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ quitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ changeGameParametersToolStripMenuItem;
-
-
-
-
-
-
-
-
-
+	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::ToolStripMenuItem^ startToolStripMenuItem;
+	private: System::Windows::Forms::Label^ playerName;
+	
+	
+	
+	
+	
+	
+	
 	protected:
 		array<bool^>^ usedCards;
 
@@ -195,6 +195,9 @@ namespace blackJack {
 			this->changeGameParametersToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->viewLeaderboardToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->startToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->playerName = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -414,7 +417,6 @@ namespace blackJack {
 			this->playerTotalCashAmount->Size = System::Drawing::Size(25, 25);
 			this->playerTotalCashAmount->TabIndex = 17;
 			this->playerTotalCashAmount->Text = L"0";
-			
 			// 
 			// Cards
 			// 
@@ -611,7 +613,10 @@ namespace blackJack {
 			// MenuBar
 			// 
 			this->MenuBar->ImageScalingSize = System::Drawing::Size(24, 24);
-			this->MenuBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) { this->Options, this->quitToolStripMenuItem });
+			this->MenuBar->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->Options, this->quitToolStripMenuItem,
+					this->startToolStripMenuItem
+			});
 			this->MenuBar->Location = System::Drawing::Point(10, 0);
 			this->MenuBar->Name = L"MenuBar";
 			this->MenuBar->Padding = System::Windows::Forms::Padding(4, 1, 0, 1);
@@ -658,6 +663,36 @@ namespace blackJack {
 			this->quitToolStripMenuItem->Text = L"Quit";
 			this->quitToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::quitToolStripMenuItem_Click);
 			// 
+			// startToolStripMenuItem
+			// 
+			this->startToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 20.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->startToolStripMenuItem->Name = L"startToolStripMenuItem";
+			this->startToolStripMenuItem->Size = System::Drawing::Size(89, 36);
+			this->startToolStripMenuItem->Text = L"Start";
+			this->startToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::startToolStripMenuItem_Click);
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(171, 157);
+			this->textBox1->Margin = System::Windows::Forms::Padding(2);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(68, 20);
+			this->textBox1->TabIndex = 35;
+			// 
+			// playerName
+			// 
+			this->playerName->AutoSize = true;
+			this->playerName->BackColor = System::Drawing::Color::LightGreen;
+			this->playerName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->playerName->Location = System::Drawing::Point(25, 696);
+			this->playerName->Name = L"playerName";
+			this->playerName->Size = System::Drawing::Size(139, 25);
+			this->playerName->TabIndex = 36;
+			this->playerName->Text = L"PlayerName";
+			this->playerName->Click += gcnew System::EventHandler(this, &gameWindow::playerName_Click);
+			// 
 			// gameWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -666,6 +701,8 @@ namespace blackJack {
 			this->BackColor = System::Drawing::Color::Green;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(1388, 796);
+			this->Controls->Add(this->playerName);
+			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->reset);
 			this->Controls->Add(this->placeBet);
 			this->Controls->Add(this->dealerHandTotal);
@@ -1568,18 +1605,30 @@ private: System::Void toolStripMenuItem1_Click(System::Object^ sender, System::E
 }
 //Exit Game Option
 private: System::Void quitToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	exit(3);
+	System::Windows::Forms::DialogResult res = MessageBox::Show("Quit the game now? ", "Quit the game", MessageBoxButtons::YesNo, MessageBoxIcon::Question);
+	if (System::Windows::Forms::DialogResult::Yes == res) {
+		exit(3);
+	}
+	else {
+	}
 }
 //Change Game Parameter -> Set player number
 private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	MessageBox::Show("Set Player Number: ", "Set Player Number: ", MessageBoxButtons::OKCancel);
-	Form setPlayer;
-	setPlayer.ShowDialog();
-	//setPlayer.Controls->Add(this->enterPlayerNum);
+	//MessageBox::Show("Set Player Number: ", "Set Player Number: ", MessageBoxButtons::OKCancel);Form setPlayer;
+	Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Number:", L"Player Settings", L"1 - 5", 500, 500);
 }
 
-
-
+//Enter player name 
+private:  
+	String^ userName;
+	System::Void startToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	userName = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Name:", L"Player Name", L"Your Name", 500, 500);
+	MessageBox::Show("Place your bet to start: ", "Start New Game");
+}
+//Display player name
+private: System::Void playerName_Click(System::Object^ sender, System::EventArgs^ e) {
+	playerName->Text = userName;
+}
 };
 
 }
