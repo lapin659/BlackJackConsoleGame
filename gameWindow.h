@@ -1151,9 +1151,9 @@ namespace blackJack {
 		else
 		{
 			this->debugText->Text = "return";
-			return;
+			return resetTurn();
 		}
-
+		return resetTurn();
 	}
 
 	private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e)
@@ -1311,9 +1311,11 @@ namespace blackJack {
 			handTotalAmount->Text = "Blackjack!";
 			playerWins();
 			roundOver = true;
+			return resetTurn();
 		}
 
 		betPlaced = true;
+		return resetTurn();
 	}
 
 	private: System::Void standButton_Click(System::Object^ sender, System::EventArgs^ e)
@@ -1406,7 +1408,7 @@ namespace blackJack {
 				playerWins();
 				roundOver = true;
 			}
-			roundOver = true;
+			resetTurn();
 		}
 		
 	}
@@ -1573,6 +1575,51 @@ namespace blackJack {
 		dealerAce4 = false;
 		secondAce = false;
 		roundOver = false;
+	}
+
+	private: void resetTurn()
+	{
+		if (roundOver)
+		{
+			Update();
+			Sleep(3000);
+			betPlaced = false;
+
+			this->playerCardBox01->Visible = false;
+			this->playerCardBox02->Visible = false;
+			this->playerCardBox03->Visible = false;
+			this->playerCardBox04->Visible = false;
+			this->playerCardBox05->Visible = false;
+			this->playerCardBox06->Visible = false;
+
+			this->dealerCardBox01->Visible = false;
+			this->dealerCardBox02->Visible = false;
+			this->dealerCardBox03->Visible = false;
+			this->dealerCardBox04->Visible = false;
+			this->dealerCardBox05->Visible = false;
+			this->dealerCardBox06->Visible = false;
+
+			for (int i = 0; i < 52; i++)
+			{
+				usedCards[i] = false;
+			}
+			handTotalAmount->Text = System::Convert::ToString(0);
+			dealerHandTotal->Text = System::Convert::ToString(0);
+			playerBetAmount->Text = System::Convert::ToString(0);
+			n = 0;
+			playerValue = 0;
+			softAce = 0;
+			PlayerValue2Exists = false;
+			playerAce = false;
+			playerAce2 = false;
+			dealerBlackjack = false;
+			dealerAce1 = false;
+			dealerAce2 = false;
+			dealerAce3 = false;
+			dealerAce4 = false;
+			secondAce = false;
+			roundOver = false;
+		}
 	}
 
 	private: void playerWins()
