@@ -1403,14 +1403,23 @@ namespace blackJack {
 				playerWins();
 				roundOver = true;
 			}
-			else if (System::Convert::ToInt16(handTotalAmount->Text) > softAce && System::Convert::ToInt16(handTotalAmount->Text) > dealerValue)
+			else if (playerValue > softAce && playerValue > dealerValue)
 			{
 				playerWins();
 				roundOver = true;
 			}
-			resetTurn();
+			else if (playerValue == dealerValue)
+			{
+				handTotalAmount->Text = System::Convert::ToInt16(handTotalAmount->Text) + " Push";
+				playerTies();
+				roundOver = true;
+			}
+			else
+			{
+				roundOver = true;
+			}
 		}
-		
+		resetTurn();
 	}
 
 	private: void dealerHasAce()
@@ -1625,6 +1634,12 @@ namespace blackJack {
 	private: void playerWins()
 	{
 		playerCashTotal += 2*System::Convert::ToInt16(playerBetAmount->Text);
+		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+	}
+
+	private: void playerTies()
+	{
+		playerCashTotal += System::Convert::ToInt16(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 	}
 
