@@ -778,6 +778,10 @@ namespace blackJack {
 			return;
 		}
 		int result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
+		if (result > playerCashTotal)
+		{
+			return;
+		}
 		playerBetAmount->Text = System::Convert::ToString(result);
 
 	}
@@ -788,6 +792,10 @@ namespace blackJack {
 			return;
 		}
 		int result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
+		if (result > playerCashTotal)
+		{
+			return;
+		}
 		playerBetAmount->Text = System::Convert::ToString(result);
 	}
 	private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e)
@@ -797,6 +805,10 @@ namespace blackJack {
 			return;
 		}
 		int result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
+		if (result > playerCashTotal)
+		{
+			return;
+		}
 		playerBetAmount->Text = System::Convert::ToString(result);
 	}
 	private: System::Void bet500Button_Click(System::Object^ sender, System::EventArgs^ e)
@@ -806,6 +818,10 @@ namespace blackJack {
 			return;
 		}
 		int result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
+		if (result > playerCashTotal)
+		{
+			return;
+		}
 		playerBetAmount->Text = System::Convert::ToString(result);
 	}
 	private: System::Void clearBetButton_Click(System::Object^ sender, System::EventArgs^ e)
