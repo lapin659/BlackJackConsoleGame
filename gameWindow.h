@@ -54,6 +54,7 @@ namespace blackJack {
 		bool PlayerValue2Exists = false;
 		bool playerAce = false;
 		bool playerAce2 = false;
+		bool playerAce3 = false;
 		bool dealerBlackjack = false;
 		int hiddenDealerValue{};
 		bool dealerAce1 = false;
@@ -61,6 +62,11 @@ namespace blackJack {
 		bool dealerAce3 = false;
 		bool dealerAce4 = false;
 		bool secondAce = false;
+		bool hit = false;
+		bool stand = false;
+		int result{};
+		bool doubleDown = false;
+
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
 	private: System::Windows::Forms::ToolStripMenuItem^ Options;
@@ -779,7 +785,7 @@ namespace blackJack {
 		{
 			return;
 		}
-		int result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
+		result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
 		if (result > playerCashTotal)
 		{
 			return;
@@ -793,7 +799,7 @@ namespace blackJack {
 		{
 			return;
 		}
-		int result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
+		result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
 		if (result > playerCashTotal)
 		{
 			return;
@@ -806,7 +812,7 @@ namespace blackJack {
 		{
 			return;
 		}
-		int result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
+		result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
 		if (result > playerCashTotal)
 		{
 			return;
@@ -819,7 +825,7 @@ namespace blackJack {
 		{
 			return;
 		}
-		int result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
+		result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
 		if (result > playerCashTotal)
 		{
 			return;
@@ -1176,15 +1182,76 @@ namespace blackJack {
 		return resetTurn();
 	}
 
-	private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		if (betPlaced == false || roundOver == true)
+		private: System::Void doubleButton_Click(System::Object^ sender, System::EventArgs^ e)
 		{
-			return;
-		}
+			if (!hit && betPlaced && !stand)
+			{
+				if (result*2 > playerCashTotal)
+				{
+					return;
+				}
 
-		this->debugText->Text = "Double Button Pressed";
-	}
+				result *= 2;
+				playerBetAmount->Text = System::Convert::ToString(result);
+				playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text)/2;
+				playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+				newCard();
+				this->playerCardBox03->Image = Cards->Images[n];
+				this->playerCardBox03->Visible = true;
+				playerValue += totalValue(n);
+				if (n > 35 && n <= 39)
+				{
+					if (!playerAce)
+					{
+						playerAce = true;
+					}
+					else if (playerAce && !playerAce2)
+					{
+						playerAce2 = true;
+					}
+					else
+					{
+						playerAce3 = true;
+					}
+				}
+				if (playerAce && playerValue > 21)
+				{
+					playerValue -= 10;
+				}
+				else if (playerAce && playerAce2 && playerValue > 21)
+				{
+					playerValue -= 10;
+					if (playerValue > 21)
+					{
+						playerValue -= 10;
+					}
+				}
+				else if (playerAce && playerAce2 && playerAce3)
+				{
+					playerValue = 13;
+				}
+				if (playerValue == 21)
+				{
+					handTotalAmount->Text = "Blackjack!";
+					playerWins();
+					roundOver = true;
+					return resetTurn();
+				}
+				if (playerValue > 21)
+				{
+					handTotalAmount->Text = "Bust!";
+					playerLoses();
+					roundOver = true;
+					return resetTurn();
+				}
+				else
+				{
+					handTotalAmount->Text = System::Convert::ToString(playerValue);
+				}
+				standExecute();
+				doubleDown = true;
+			}
+		}
 
 	private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -1341,36 +1408,38 @@ namespace blackJack {
 
 	private: System::Void standButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		this->debugText->Text = "Stand Button Pressed";
+		standExecute();
+	}
+
+	private: void standExecute()
+	{
 		if (betPlaced == false || roundOver == true)
 		{
 			return;
 		}
-
-		this->dealerCardBox02->Image = this->dealerCardBox03->Image;
-		this->dealerCardBox02->Visible = true;
-		dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-
-		if (dealerValue > 21)
+		if (playerValue > 21)
 		{
-			dealerValue -= 10;
-			dealerHandTotal->Text = "2/" + System::Convert::ToString(dealerValue);
+			this->dealerCardBox02->Image = this->dealerCardBox03->Image;
+			this->dealerCardBox02->Visible = true;
+			dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 		}
-		if (dealerValue < 17)
+		else if (playerValue != 21)
 		{
-			newCard();
-			this->dealerCardBox03->Image = Cards->Images[n];
-			this->dealerCardBox03->Visible = true;
-			if (n > 35 && n <= 39)
+			this->debugText->Text = "Stand Button Pressed";
+			this->dealerCardBox02->Image = this->dealerCardBox03->Image;
+			this->dealerCardBox02->Visible = true;
+			dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+
+			if (dealerValue > 21)
 			{
-				dealerHasAce();
+				dealerValue -= 10;
+				dealerHandTotal->Text = "2/" + System::Convert::ToString(dealerValue);
 			}
-			addShowDealerHand();
 			if (dealerValue < 17)
 			{
 				newCard();
-				this->dealerCardBox04->Image = Cards->Images[n];
-				this->dealerCardBox04->Visible = true;
+				this->dealerCardBox03->Image = Cards->Images[n];
+				this->dealerCardBox03->Visible = true;
 				if (n > 35 && n <= 39)
 				{
 					dealerHasAce();
@@ -1379,8 +1448,8 @@ namespace blackJack {
 				if (dealerValue < 17)
 				{
 					newCard();
-					this->dealerCardBox05->Image = Cards->Images[n];
-					this->dealerCardBox05->Visible = true;
+					this->dealerCardBox04->Image = Cards->Images[n];
+					this->dealerCardBox04->Visible = true;
 					if (n > 35 && n <= 39)
 					{
 						dealerHasAce();
@@ -1389,8 +1458,8 @@ namespace blackJack {
 					if (dealerValue < 17)
 					{
 						newCard();
-						this->dealerCardBox06->Image = Cards->Images[n];
-						this->dealerCardBox06->Visible = true;
+						this->dealerCardBox05->Image = Cards->Images[n];
+						this->dealerCardBox05->Visible = true;
 						if (n > 35 && n <= 39)
 						{
 							dealerHasAce();
@@ -1406,41 +1475,52 @@ namespace blackJack {
 								dealerHasAce();
 							}
 							addShowDealerHand();
-
+							if (dealerValue < 17)
+							{
+								newCard();
+								this->dealerCardBox06->Image = Cards->Images[n];
+								this->dealerCardBox06->Visible = true;
+								if (n > 35 && n <= 39)
+								{
+									dealerHasAce();
+								}
+								addShowDealerHand();
+							}
 						}
 					}
 				}
 			}
+			if (roundOver == false)
+			{
+				if (handTotalAmount->Text == "Blackjack!")
+				{
+					playerWins();
+					roundOver = true;
+				}
+				else if (dealerHandTotal->Text == "Dealer Busts!")
+				{
+					playerWins();
+					roundOver = true;
+				}
+				else if (playerValue > softAce && playerValue > dealerValue)
+				{
+					playerWins();
+					roundOver = true;
+				}
+				else if (playerValue == dealerValue)
+				{
+					handTotalAmount->Text = System::Convert::ToInt16(handTotalAmount->Text) + " Push";
+					playerTies();
+					roundOver = true;
+				}
+				else
+				{
+					playerLoses();
+					roundOver = true;
+				}
+			}
 		}
-		if (roundOver == false)
-		{
-			if (handTotalAmount->Text == "Blackjack!")
-			{
-				playerWins();
-				roundOver = true;
-			}
-			else if (dealerHandTotal->Text == "Dealer Busts!")
-			{
-				playerWins();
-				roundOver = true;
-			}
-			else if (playerValue > softAce && playerValue > dealerValue)
-			{
-				playerWins();
-				roundOver = true;
-			}
-			else if (playerValue == dealerValue)
-			{
-				handTotalAmount->Text = System::Convert::ToInt16(handTotalAmount->Text) + " Push";
-				playerTies();
-				roundOver = true;
-			}
-			else
-			{
-				playerLoses();
-				roundOver = true;
-			}
-		}
+		stand = true;
 		resetTurn();
 	}
 
@@ -1599,12 +1679,16 @@ namespace blackJack {
 		PlayerValue2Exists = false;
 		playerAce = false;
 		playerAce2 = false;
+		playerAce3 = false;
 		dealerBlackjack = false;
 		dealerAce1 = false;
 		dealerAce2 = false;
 		dealerAce3 = false;
 		dealerAce4 = false;
 		secondAce = false;
+		hit = false;
+		stand = false;
+		doubleDown = false;
 		roundOver = false;
 	}
 
@@ -1643,12 +1727,16 @@ namespace blackJack {
 			PlayerValue2Exists = false;
 			playerAce = false;
 			playerAce2 = false;
+			playerAce3 = false;
 			dealerBlackjack = false;
 			dealerAce1 = false;
 			dealerAce2 = false;
 			dealerAce3 = false;
 			dealerAce4 = false;
 			secondAce = false;
+			hit = false;
+			stand = false;
+			doubleDown = false;
 			roundOver = false;
 		}
 	}
