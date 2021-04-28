@@ -69,7 +69,8 @@ namespace blackJack {
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::ToolStripMenuItem^ startToolStripMenuItem;
 	private: System::Windows::Forms::Label^ playerName;
-	
+
+
 	
 	
 	
@@ -220,7 +221,7 @@ namespace blackJack {
 			this->hitButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->hitButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->hitButton->Location = System::Drawing::Point(295, 761);
+			this->hitButton->Location = System::Drawing::Point(690, 683);
 			this->hitButton->Name = L"hitButton";
 			this->hitButton->Size = System::Drawing::Size(107, 52);
 			this->hitButton->TabIndex = 0;
@@ -235,7 +236,7 @@ namespace blackJack {
 			this->standButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->standButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->standButton->Location = System::Drawing::Point(520, 761);
+			this->standButton->Location = System::Drawing::Point(843, 683);
 			this->standButton->Name = L"standButton";
 			this->standButton->Size = System::Drawing::Size(107, 52);
 			this->standButton->TabIndex = 1;
@@ -250,7 +251,7 @@ namespace blackJack {
 			this->doubleButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
 			this->doubleButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->doubleButton->Location = System::Drawing::Point(755, 761);
+			this->doubleButton->Location = System::Drawing::Point(1009, 683);
 			this->doubleButton->Name = L"doubleButton";
 			this->doubleButton->Size = System::Drawing::Size(107, 52);
 			this->doubleButton->TabIndex = 2;
@@ -620,7 +621,7 @@ namespace blackJack {
 			this->MenuBar->Location = System::Drawing::Point(10, 0);
 			this->MenuBar->Name = L"MenuBar";
 			this->MenuBar->Padding = System::Windows::Forms::Padding(4, 1, 0, 1);
-			this->MenuBar->Size = System::Drawing::Size(1368, 38);
+			this->MenuBar->Size = System::Drawing::Size(1350, 38);
 			this->MenuBar->TabIndex = 34;
 			// 
 			// Options
@@ -700,7 +701,7 @@ namespace blackJack {
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::Color::Green;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->ClientSize = System::Drawing::Size(1388, 796);
+			this->ClientSize = System::Drawing::Size(1370, 749);
 			this->Controls->Add(this->playerName);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->reset);
@@ -1012,6 +1013,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "You bust!";
 				roundOver = true;
+				playerLoses();
 			}
 
 
@@ -1269,6 +1271,7 @@ namespace blackJack {
 				this->dealerCardBox02->Visible = true;
 				dealerHandTotal->Text = "Blackjack!";
 				handTotalAmount->Text = "You lose!";
+				playerLoses();
 				roundOver = true;
 				dealerBlackjack = true;
 			}
@@ -1432,6 +1435,7 @@ namespace blackJack {
 			}
 			else
 			{
+				playerLoses();
 				roundOver = true;
 			}
 		}
@@ -1706,6 +1710,21 @@ private:
 //Display player name
 private: System::Void playerName_Click(System::Object^ sender, System::EventArgs^ e) {
 	playerName->Text = userName;
+}
+
+//Player loses game
+private: void playerLoses() {
+	if (playerCashTotal <= 0) {
+		if (MessageBox::Show("You lose! \n Play again?", "Game Over!", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::No) {
+			Application::Exit();
+		}
+		else {
+			resetExecute();
+			playerCashTotal = 5000;
+			playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+		}
+	}
+	
 }
 };
 
