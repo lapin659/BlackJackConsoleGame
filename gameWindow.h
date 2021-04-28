@@ -8,6 +8,7 @@
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
+//current version as of 4_28 12:15am
 namespace blackJack {
 
 	using namespace System;
@@ -940,6 +941,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "You bust!";
 				roundOver = true;
+				playerLoses();
 			}
 
 
