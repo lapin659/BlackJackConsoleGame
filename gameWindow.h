@@ -8,7 +8,7 @@
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
-//current version as of 4_28 12:15am
+//current version as of 5_2 4:30pm
 namespace blackJack {
 
 	using namespace System;
