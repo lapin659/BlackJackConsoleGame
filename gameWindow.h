@@ -8,7 +8,7 @@
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
-//current version as of 5_2 4:40pm
+//current version as of 5_3 3:15pm
 namespace blackJack {
 
 	using namespace System;
@@ -76,15 +76,18 @@ namespace blackJack {
 
 	private: System::Windows::Forms::ToolStripMenuItem^ startToolStripMenuItem;
 	private: System::Windows::Forms::Label^ playerName;
-	private: System::Windows::Forms::PictureBox^ chip10;
 	private: System::Windows::Forms::ImageList^ chipList;
+	private: System::Windows::Forms::PictureBox^ chip10;
+	private: System::Windows::Forms::PictureBox^ chip50;
+	private: System::Windows::Forms::PictureBox^ chip100;
+	private: System::Windows::Forms::PictureBox^ chip500;
 
-
-
-
-
-
-
+	private: System::Windows::Forms::ImageList^ playerStack;
+	private: System::Windows::Forms::PictureBox^ playerChips;
+	private: System::Windows::Forms::PictureBox^ winnings;
+	private: System::Windows::Forms::PictureBox^ deck;
+	private: System::Windows::Forms::ImageList^ dealerStack;
+	private: System::Windows::Forms::PictureBox^ dealerChips;
 
 	protected:
 		array<bool^>^ usedCards;
@@ -135,22 +138,9 @@ namespace blackJack {
 
 	private: System::Windows::Forms::Label^ dealerHandLabel;
 
-
-
 	private: System::ComponentModel::IContainer^ components;
 
-
-
-
-
-
-
-
-
-
 	protected:
-
-
 
 	private:
 		/// <summary>
@@ -207,8 +197,17 @@ namespace blackJack {
 			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playerName = (gcnew System::Windows::Forms::Label());
-			this->chip10 = (gcnew System::Windows::Forms::PictureBox());
 			this->chipList = (gcnew System::Windows::Forms::ImageList(this->components));
+			this->chip10 = (gcnew System::Windows::Forms::PictureBox());
+			this->chip50 = (gcnew System::Windows::Forms::PictureBox());
+			this->chip100 = (gcnew System::Windows::Forms::PictureBox());
+			this->chip500 = (gcnew System::Windows::Forms::PictureBox());
+			this->playerStack = (gcnew System::Windows::Forms::ImageList(this->components));
+			this->playerChips = (gcnew System::Windows::Forms::PictureBox());
+			this->winnings = (gcnew System::Windows::Forms::PictureBox());
+			this->deck = (gcnew System::Windows::Forms::PictureBox());
+			this->dealerStack = (gcnew System::Windows::Forms::ImageList(this->components));
+			this->dealerChips = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -223,6 +222,13 @@ namespace blackJack {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerCardBox06))->BeginInit();
 			this->MenuBar->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip10))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip50))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip100))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip500))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerChips))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->winnings))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->deck))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerChips))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// hitButton
@@ -341,7 +347,7 @@ namespace blackJack {
 			this->betLabel->AutoSize = true;
 			this->betLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->betLabel->Location = System::Drawing::Point(504, 442);
+			this->betLabel->Location = System::Drawing::Point(322, 442);
 			this->betLabel->Name = L"betLabel";
 			this->betLabel->Size = System::Drawing::Size(81, 25);
 			this->betLabel->TabIndex = 10;
@@ -352,7 +358,7 @@ namespace blackJack {
 			this->playerBetAmount->AutoSize = true;
 			this->playerBetAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->playerBetAmount->Location = System::Drawing::Point(566, 442);
+			this->playerBetAmount->Location = System::Drawing::Point(398, 442);
 			this->playerBetAmount->Name = L"playerBetAmount";
 			this->playerBetAmount->Size = System::Drawing::Size(25, 25);
 			this->playerBetAmount->TabIndex = 11;
@@ -362,7 +368,7 @@ namespace blackJack {
 			// 
 			this->bet10Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet10Button->Location = System::Drawing::Point(659, 442);
+			this->bet10Button->Location = System::Drawing::Point(704, 444);
 			this->bet10Button->Name = L"bet10Button";
 			this->bet10Button->Size = System::Drawing::Size(64, 29);
 			this->bet10Button->TabIndex = 12;
@@ -374,7 +380,7 @@ namespace blackJack {
 			// 
 			this->bet50Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet50Button->Location = System::Drawing::Point(743, 442);
+			this->bet50Button->Location = System::Drawing::Point(799, 444);
 			this->bet50Button->Name = L"bet50Button";
 			this->bet50Button->Size = System::Drawing::Size(64, 29);
 			this->bet50Button->TabIndex = 13;
@@ -386,7 +392,7 @@ namespace blackJack {
 			// 
 			this->bet100Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet100Button->Location = System::Drawing::Point(832, 442);
+			this->bet100Button->Location = System::Drawing::Point(902, 444);
 			this->bet100Button->Name = L"bet100Button";
 			this->bet100Button->Size = System::Drawing::Size(64, 29);
 			this->bet100Button->TabIndex = 14;
@@ -398,7 +404,7 @@ namespace blackJack {
 			// 
 			this->bet500Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->bet500Button->Location = System::Drawing::Point(917, 442);
+			this->bet500Button->Location = System::Drawing::Point(999, 444);
 			this->bet500Button->Name = L"bet500Button";
 			this->bet500Button->Size = System::Drawing::Size(64, 29);
 			this->bet500Button->TabIndex = 15;
@@ -410,7 +416,7 @@ namespace blackJack {
 			// 
 			this->clearBetButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->clearBetButton->Location = System::Drawing::Point(309, 442);
+			this->clearBetButton->Location = System::Drawing::Point(562, 444);
 			this->clearBetButton->Name = L"clearBetButton";
 			this->clearBetButton->Size = System::Drawing::Size(108, 29);
 			this->clearBetButton->TabIndex = 16;
@@ -559,7 +565,7 @@ namespace blackJack {
 			this->handTotalAmount->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalAmount->Location = System::Drawing::Point(654, 393);
+			this->handTotalAmount->Location = System::Drawing::Point(456, 389);
 			this->handTotalAmount->Name = L"handTotalAmount";
 			this->handTotalAmount->Size = System::Drawing::Size(25, 25);
 			this->handTotalAmount->TabIndex = 26;
@@ -571,7 +577,7 @@ namespace blackJack {
 			this->handTotalLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalLabel->Location = System::Drawing::Point(475, 393);
+			this->handTotalLabel->Location = System::Drawing::Point(283, 389);
 			this->handTotalLabel->Name = L"handTotalLabel";
 			this->handTotalLabel->Size = System::Drawing::Size(179, 25);
 			this->handTotalLabel->TabIndex = 25;
@@ -583,7 +589,7 @@ namespace blackJack {
 			this->dealerHandTotal->BackColor = System::Drawing::Color::Chartreuse;
 			this->dealerHandTotal->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dealerHandTotal->Location = System::Drawing::Point(654, 334);
+			this->dealerHandTotal->Location = System::Drawing::Point(498, 334);
 			this->dealerHandTotal->Name = L"dealerHandTotal";
 			this->dealerHandTotal->Size = System::Drawing::Size(25, 25);
 			this->dealerHandTotal->TabIndex = 28;
@@ -595,7 +601,7 @@ namespace blackJack {
 			this->dealerHandLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->dealerHandLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dealerHandLabel->Location = System::Drawing::Point(440, 334);
+			this->dealerHandLabel->Location = System::Drawing::Point(283, 334);
 			this->dealerHandLabel->Name = L"dealerHandLabel";
 			this->dealerHandLabel->Size = System::Drawing::Size(217, 25);
 			this->dealerHandLabel->TabIndex = 27;
@@ -603,9 +609,11 @@ namespace blackJack {
 			// 
 			// placeBet
 			// 
-			this->placeBet->Location = System::Drawing::Point(1000, 448);
+			this->placeBet->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->placeBet->Location = System::Drawing::Point(1104, 444);
 			this->placeBet->Name = L"placeBet";
-			this->placeBet->Size = System::Drawing::Size(75, 23);
+			this->placeBet->Size = System::Drawing::Size(101, 29);
 			this->placeBet->TabIndex = 29;
 			this->placeBet->Text = L"Place Bet";
 			this->placeBet->UseVisualStyleBackColor = true;
@@ -613,7 +621,7 @@ namespace blackJack {
 			// 
 			// reset
 			// 
-			this->reset->Location = System::Drawing::Point(1000, 352);
+			this->reset->Location = System::Drawing::Point(1130, 393);
 			this->reset->Margin = System::Windows::Forms::Padding(2);
 			this->reset->Name = L"reset";
 			this->reset->Size = System::Drawing::Size(75, 23);
@@ -697,27 +705,98 @@ namespace blackJack {
 			this->playerName->Text = L"PlayerName";
 			this->playerName->Click += gcnew System::EventHandler(this, &gameWindow::playerName_Click);
 			// 
-			// chip10
-			// 
-			this->chip10->Location = System::Drawing::Point(176, 516);
-			this->chip10->Name = L"chip10";
-			this->chip10->Size = System::Drawing::Size(80, 88);
-			this->chip10->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->chip10->TabIndex = 0;
-			this->chip10->TabStop = false;
-			// 
 			// chipList
 			// 
 			this->chipList->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"chipList.ImageStream")));
 			this->chipList->TransparentColor = System::Drawing::Color::Transparent;
-			this->chipList->Images->SetKeyName(0, L"bank-18xx-board-game-10-poker-chip.jpg");
-			this->chipList->Images->SetKeyName(1, L"toppng.com-black-chips-poker-1231x1231.png");
-			this->chipList->Images->SetKeyName(2, L"149405699-realistic-poker-chips-icon-vector-illustration-eps-10-.jpg");
-			this->chipList->Images->SetKeyName(3, L"10.png");
-			this->chipList->Images->SetKeyName(4, L"50.png");
-			this->chipList->Images->SetKeyName(5, L"100.png");
-			this->chipList->Images->SetKeyName(6, L"500.png");
-			this->chipList->Images->SetKeyName(7, L"pile.png");
+			this->chipList->Images->SetKeyName(0, L"10.png");
+			this->chipList->Images->SetKeyName(1, L"50.png");
+			this->chipList->Images->SetKeyName(2, L"100.png");
+			this->chipList->Images->SetKeyName(3, L"500.png");
+			// 
+			// chip10
+			// 
+			this->chip10->Location = System::Drawing::Point(698, 356);
+			this->chip10->Name = L"chip10";
+			this->chip10->Size = System::Drawing::Size(70, 70);
+			this->chip10->TabIndex = 7;
+			this->chip10->TabStop = false;
+			// 
+			// chip50
+			// 
+			this->chip50->Location = System::Drawing::Point(793, 356);
+			this->chip50->Name = L"chip50";
+			this->chip50->Size = System::Drawing::Size(70, 70);
+			this->chip50->TabIndex = 6;
+			this->chip50->TabStop = false;
+			// 
+			// chip100
+			// 
+			this->chip100->Location = System::Drawing::Point(896, 356);
+			this->chip100->Name = L"chip100";
+			this->chip100->Size = System::Drawing::Size(70, 70);
+			this->chip100->TabIndex = 5;
+			this->chip100->TabStop = false;
+			// 
+			// chip500
+			// 
+			this->chip500->Location = System::Drawing::Point(993, 356);
+			this->chip500->Name = L"chip500";
+			this->chip500->Size = System::Drawing::Size(70, 70);
+			this->chip500->TabIndex = 4;
+			this->chip500->TabStop = false;
+			// 
+			// playerStack
+			// 
+			this->playerStack->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"playerStack.ImageStream")));
+			this->playerStack->TransparentColor = System::Drawing::Color::Transparent;
+			this->playerStack->Images->SetKeyName(0, L"bigStack.png");
+			this->playerStack->Images->SetKeyName(1, L"smallStack.png");
+			this->playerStack->Images->SetKeyName(2, L"pile.png");
+			// 
+			// playerChips
+			// 
+			this->playerChips->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"playerChips.Image")));
+			this->playerChips->Location = System::Drawing::Point(235, 514);
+			this->playerChips->Name = L"playerChips";
+			this->playerChips->Size = System::Drawing::Size(150, 150);
+			this->playerChips->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->playerChips->TabIndex = 3;
+			this->playerChips->TabStop = false;
+			// 
+			// winnings
+			// 
+			this->winnings->Location = System::Drawing::Point(48, 514);
+			this->winnings->Name = L"winnings";
+			this->winnings->Size = System::Drawing::Size(150, 150);
+			this->winnings->TabIndex = 2;
+			this->winnings->TabStop = false;
+			// 
+			// deck
+			// 
+			this->deck->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"deck.Image")));
+			this->deck->Location = System::Drawing::Point(958, 51);
+			this->deck->Name = L"deck";
+			this->deck->Size = System::Drawing::Size(105, 159);
+			this->deck->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->deck->TabIndex = 1;
+			this->deck->TabStop = false;
+			// 
+			// dealerStack
+			// 
+			this->dealerStack->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"dealerStack.ImageStream")));
+			this->dealerStack->TransparentColor = System::Drawing::Color::Transparent;
+			this->dealerStack->Images->SetKeyName(0, L"dealerChips.png");
+			// 
+			// dealerChips
+			// 
+			this->dealerChips->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dealerChips.Image")));
+			this->dealerChips->Location = System::Drawing::Point(74, 60);
+			this->dealerChips->Name = L"dealerChips";
+			this->dealerChips->Size = System::Drawing::Size(256, 150);
+			this->dealerChips->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->dealerChips->TabIndex = 0;
+			this->dealerChips->TabStop = false;
 			// 
 			// gameWindow
 			// 
@@ -727,6 +806,13 @@ namespace blackJack {
 			this->BackColor = System::Drawing::Color::Green;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(1370, 749);
+			this->Controls->Add(this->dealerChips);
+			this->Controls->Add(this->deck);
+			this->Controls->Add(this->winnings);
+			this->Controls->Add(this->playerChips);
+			this->Controls->Add(this->chip500);
+			this->Controls->Add(this->chip100);
+			this->Controls->Add(this->chip50);
 			this->Controls->Add(this->chip10);
 			this->Controls->Add(this->playerName);
 			this->Controls->Add(this->reset);
@@ -782,6 +868,13 @@ namespace blackJack {
 			this->MenuBar->ResumeLayout(false);
 			this->MenuBar->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip10))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip50))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip100))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chip500))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerChips))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->winnings))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->deck))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerChips))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -800,13 +893,15 @@ namespace blackJack {
 		   //Betting Buttons
 	private: System::Void bet10Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		
+		if (!betPlaced)
+		{
+			this->chip10->Image = chipList->Images[0];
+			this->chip10->Visible = true;
+		}
 		if (betPlaced == true)
 		{
 			return;
 		}
-		this->chip10->Image = chipList->Images[0];
-		this->chip10->Visible = true;
 		result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
 		if (result > playerCashTotal)
 		{
@@ -817,6 +912,11 @@ namespace blackJack {
 	}
 	private: System::Void bet50Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (!betPlaced)
+		{
+			this->chip50->Image = chipList->Images[1];
+			this->chip50->Visible = true;
+		}
 		if (betPlaced == true)
 		{
 			return;
@@ -830,6 +930,11 @@ namespace blackJack {
 	}
 	private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (!betPlaced)
+		{
+			this->chip100->Image = chipList->Images[2];
+			this->chip100->Visible = true;
+		}
 		if (betPlaced == true)
 		{
 			return;
@@ -843,6 +948,11 @@ namespace blackJack {
 	}
 	private: System::Void bet500Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (!betPlaced)
+		{
+			this->chip500->Image = chipList->Images[3];
+			this->chip500->Visible = true;
+		}
 		if (betPlaced == true)
 		{
 			return;
@@ -872,18 +982,7 @@ namespace blackJack {
 			return;
 		}
 
-		int n{};
-		n = rand() % (int)52;
-
-
-
-		while (System::Convert::ToBoolean(usedCards[n]) == true)
-		{
-			n = rand() % (int)52;
-		}
-
-		usedCards[n] = true;
-
+		newCard();
 
 		if (this->playerCardBox01->Visible == false)
 
@@ -1045,9 +1144,6 @@ namespace blackJack {
 				roundOver = true;
 				playerLoses();
 			}
-
-
-
 		}
 
 		else if (this->playerCardBox05->Visible == false)
@@ -1201,6 +1297,7 @@ namespace blackJack {
 			this->debugText->Text = "return";
 			return resetTurn();
 		}
+		hit = true;
 		return resetTurn();
 	}
 
@@ -1666,6 +1763,18 @@ namespace blackJack {
 	private: void resetExecute()
 	{
 		betPlaced = false;
+		if (playerCashTotal < 2500 && playerCashTotal > 0)
+		{
+			this->playerChips->Image = playerStack->Images[1];
+		}
+		else if (playerCashTotal > 2500)
+		{
+			this->playerChips->Image = playerStack->Images[0];
+		}
+		else
+		{
+			this->playerChips->Visible = false;
+		}
 
 		this->playerCardBox01->Visible = false;
 		this->playerCardBox02->Visible = false;
@@ -1680,6 +1789,12 @@ namespace blackJack {
 		this->dealerCardBox04->Visible = false;
 		this->dealerCardBox05->Visible = false;
 		this->dealerCardBox06->Visible = false;
+
+		this->chip10->Visible = false;
+		this->chip50->Visible = false;
+		this->chip100->Visible = false;
+		this->chip500->Visible = false;
+		this->winnings->Visible = false;
 
 		for (int i = 0; i < 52; i++)
 		{
@@ -1721,6 +1836,8 @@ namespace blackJack {
 	{
 		playerCashTotal += 2 * System::Convert::ToInt16(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+		this->winnings->Image = playerStack->Images[2];
+		this->winnings->Visible = true;
 	}
 
 	private: void playerTies()
@@ -1793,8 +1910,6 @@ namespace blackJack {
 		}
 
 	}
-	private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-	};
+};
 
 }
