@@ -73,7 +73,7 @@ namespace blackJack {
 	private: System::Windows::Forms::ToolStripMenuItem^ viewLeaderboardToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ quitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ changeGameParametersToolStripMenuItem;
-	private: System::Windows::Forms::TextBox^ textBox1;
+
 	private: System::Windows::Forms::ToolStripMenuItem^ startToolStripMenuItem;
 	private: System::Windows::Forms::Label^ playerName;
 	private: System::Windows::Forms::PictureBox^ chip10;
@@ -206,7 +206,6 @@ namespace blackJack {
 			this->viewLeaderboardToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->playerName = (gcnew System::Windows::Forms::Label());
 			this->chip10 = (gcnew System::Windows::Forms::PictureBox());
 			this->chipList = (gcnew System::Windows::Forms::ImageList(this->components));
@@ -685,15 +684,6 @@ namespace blackJack {
 			this->startToolStripMenuItem->Text = L"Start";
 			this->startToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::startToolStripMenuItem_Click);
 			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(171, 157);
-			this->textBox1->Margin = System::Windows::Forms::Padding(2);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(68, 20);
-			this->textBox1->TabIndex = 35;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &gameWindow::textBox1_TextChanged);
-			// 
 			// playerName
 			// 
 			this->playerName->AutoSize = true;
@@ -707,25 +697,27 @@ namespace blackJack {
 			this->playerName->Text = L"PlayerName";
 			this->playerName->Click += gcnew System::EventHandler(this, &gameWindow::playerName_Click);
 			// 
+			// chip10
+			// 
+			this->chip10->Location = System::Drawing::Point(176, 516);
+			this->chip10->Name = L"chip10";
+			this->chip10->Size = System::Drawing::Size(80, 88);
+			this->chip10->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
+			this->chip10->TabIndex = 0;
+			this->chip10->TabStop = false;
+			// 
 			// chipList
 			// 
 			this->chipList->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"chipList.ImageStream")));
 			this->chipList->TransparentColor = System::Drawing::Color::Transparent;
-			this->chipList->Images->SetKeyName(0, L"10.png");
-			this->chipList->Images->SetKeyName(1, L"50.png");
-			this->chipList->Images->SetKeyName(2, L"100.png");
-			this->chipList->Images->SetKeyName(3, L"500.png");
-			this->chipList->Images->SetKeyName(4, L"pile.png");
-			// 
-			// chip10
-			// 
-			this->chip10->Location = System::Drawing::Point(309, 523);
-			this->chip10->Name = L"chip10";
-			this->chip10->Size = System::Drawing::Size(60, 60);
-			this->chip10->TabIndex = 37;
-			this->chip10->TabStop = false;
-			this->chip10->Image = chipList->Images[0];
-			this->chip10->Visible = true;
+			this->chipList->Images->SetKeyName(0, L"bank-18xx-board-game-10-poker-chip.jpg");
+			this->chipList->Images->SetKeyName(1, L"toppng.com-black-chips-poker-1231x1231.png");
+			this->chipList->Images->SetKeyName(2, L"149405699-realistic-poker-chips-icon-vector-illustration-eps-10-.jpg");
+			this->chipList->Images->SetKeyName(3, L"10.png");
+			this->chipList->Images->SetKeyName(4, L"50.png");
+			this->chipList->Images->SetKeyName(5, L"100.png");
+			this->chipList->Images->SetKeyName(6, L"500.png");
+			this->chipList->Images->SetKeyName(7, L"pile.png");
 			// 
 			// gameWindow
 			// 
@@ -737,7 +729,6 @@ namespace blackJack {
 			this->ClientSize = System::Drawing::Size(1370, 749);
 			this->Controls->Add(this->chip10);
 			this->Controls->Add(this->playerName);
-			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->reset);
 			this->Controls->Add(this->placeBet);
 			this->Controls->Add(this->dealerHandTotal);
@@ -809,12 +800,13 @@ namespace blackJack {
 		   //Betting Buttons
 	private: System::Void bet10Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		this->chip10->Image = chipList->Images[0];
-		this->chip10->Visible = true;
+		
 		if (betPlaced == true)
 		{
 			return;
 		}
+		this->chip10->Image = chipList->Images[0];
+		this->chip10->Visible = true;
 		result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
 		if (result > playerCashTotal)
 		{
