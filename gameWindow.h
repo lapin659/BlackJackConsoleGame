@@ -8,7 +8,7 @@
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
-//current version as of 5_3 3:15pm
+//current version as of 5_5 2:00pm
 namespace blackJack {
 
 	using namespace System;
@@ -66,6 +66,11 @@ namespace blackJack {
 		bool stand = false;
 		int result{};
 		bool doubleDown = false;
+		bool ace = false;
+		bool ace2 = false;
+		bool ace3 = false;
+		bool ace4 = false;
+		bool standAce = false;
 
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
@@ -1498,6 +1503,7 @@ namespace blackJack {
 				{
 					softAce = playerValue - 10;
 					handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					standAce = true;
 				}
 			}
 			else
@@ -1525,6 +1531,10 @@ namespace blackJack {
 
 	private: void standExecute()
 	{
+		if (standAce)
+		{
+			handTotalAmount->Text = System::Convert::ToString(playerValue);
+		}
 		if (betPlaced == false || roundOver == true)
 		{
 			return;
@@ -1661,82 +1671,38 @@ namespace blackJack {
 		dealerValue += totalValue(n);
 		if (dealerValue > 21)
 		{
-			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
+			if (dealerAce1 && !ace)
 			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce);
-					dealerValue = softAce;
-					dealerAce1 = false;
-				}
-				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
-				}
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace = true;
+			}
+			else if (dealerAce1 && dealerAce2 && !ace2)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace2 = true;
+			}
+			else if (dealerAce1 && dealerAce2 && dealerAce3 && !ace3)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace3 = true;
+			}
+			else if (dealerAce1 && dealerAce2 && dealerAce3 && dealerAce4 && !ace4)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace4 = true;
 			}
 			else
 			{
 				dealerHandTotal->Text = "Dealer Busts!";
 			}
-			if (dealerAce1 && dealerAce2)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerValue -= 10;
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else if (dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-			}
 		}
 		else
 		{
-			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce);
-					dealerValue = softAce;
-				}
-				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
-				}
-			}
-			else
-			{
-				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-			}
-			if (dealerAce1 && dealerAce2)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerValue -= 10;
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-			}
+			dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 		}
 	}
 
@@ -1820,6 +1786,11 @@ namespace blackJack {
 		stand = false;
 		doubleDown = false;
 		roundOver = false;
+		ace = false;
+		ace2 = false;
+		ace3 = false;
+		ace4 = false;
+		standAce = false;
 	}
 
 	private: void resetTurn()
