@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <windows.h>
+#include <sstream>
+
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
@@ -17,6 +19,7 @@ namespace blackJack {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	
 
 
 	/// <summary>
@@ -44,7 +47,8 @@ namespace blackJack {
 
 
 	protected:
-		int playerCashTotal = 5000;
+		int playerCashTotal;
+		int moneyDefault;
 		bool betPlaced = false;
 		bool roundOver = false;
 		int n{};
@@ -93,6 +97,7 @@ namespace blackJack {
 	private: System::Windows::Forms::PictureBox^ deck;
 	private: System::Windows::Forms::ImageList^ dealerStack;
 	private: System::Windows::Forms::PictureBox^ dealerChips;
+
 
 	protected:
 		array<bool^>^ usedCards;
@@ -882,12 +887,12 @@ namespace blackJack {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerChips))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
+			gameStart();
 		}
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
 	{
-
+		
 	}
 
 
@@ -1851,7 +1856,8 @@ namespace blackJack {
 		   //Change Game Parameter -> Set player number
 	private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		//MessageBox::Show("Set Player Number: ", "Set Player Number: ", MessageBoxButtons::OKCancel);Form setPlayer;
-		Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Number:", L"Player Settings", L"1 - 5", 500, 500);
+		//Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Number:", L"Player Settings", L"1 - 5", 500, 500);
+		gameStart();
 	}
 
 		   //Enter player name 
@@ -1875,12 +1881,38 @@ namespace blackJack {
 			}
 			else {
 				resetExecute();
-				playerCashTotal = 5000;
+				playerCashTotal = moneyDefault;
 				playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 			}
 		}
 
 	}
+private: void gameStart() {
+	String^ moneyTemp = "0";
+	moneyTemp = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Starting Money:", L"Game Start", L"500 to 50,000", 500, 500);
+	if (moneyTemp == """") {
+		playerCashTotal = 5000;
+
+	}
+	else if (moneyTemp == "500 to 50,000") {
+		playerCashTotal = 5000;
+	}
+	else {
+		moneyDefault = System::Convert::ToInt32(moneyTemp);
+		playerCashTotal = moneyDefault;
+		if (playerCashTotal < 500) {
+			playerCashTotal = 5000;
+			gameStart();
+		}
+		if (playerCashTotal > 50000) {
+			playerCashTotal = 5000;
+			gameStart();
+		}
+		
+	}
+	playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+
+}
 };
 
 }
