@@ -19,7 +19,6 @@ namespace blackJack {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-	
 
 
 	/// <summary>
@@ -1889,16 +1888,27 @@ namespace blackJack {
 	}
 private: void gameStart() {
 	String^ moneyTemp = "0";
-	moneyTemp = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Starting Money:", L"Game Start", L"500 to 50,000", 500, 500);
-	if (moneyTemp == """") {
-		playerCashTotal = 5000;
 
+	while (true) {
+		moneyTemp = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Starting Money:", L"Game Start", L"500 to 50,000", 500, 500);
+		if (moneyTemp == """") {
+			moneyTemp = "5000";
+		}
+		if (moneyTemp == "500 to 50,000") {
+			moneyTemp = "5000";
+		}
+		try {
+			moneyDefault = System::Convert::ToInt32(moneyTemp);
+		}
+		catch (...) {
+			continue;
+		}
+		
+		break;
 	}
-	else if (moneyTemp == "500 to 50,000") {
-		playerCashTotal = 5000;
-	}
-	else {
-		moneyDefault = System::Convert::ToInt32(moneyTemp);
+	
+	
+		//moneyDefault = System::Convert::ToInt32(moneyTemp);
 		playerCashTotal = moneyDefault;
 		if (playerCashTotal < 500) {
 			playerCashTotal = 5000;
@@ -1909,7 +1919,6 @@ private: void gameStart() {
 			gameStart();
 		}
 		
-	}
 	playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
 }
