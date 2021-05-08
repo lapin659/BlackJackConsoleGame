@@ -5,10 +5,12 @@
 #include <stdlib.h>
 #include <iostream>
 #include <windows.h>
+#include <sstream>
+
 
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
-//current version as of 5_3 3:15pm
+//current version as of 5_5 2:00pm
 namespace blackJack {
 
 	using namespace System;
@@ -44,7 +46,8 @@ namespace blackJack {
 
 
 	protected:
-		int playerCashTotal = 5000;
+		int playerCashTotal;
+		int moneyDefault;
 		bool betPlaced = false;
 		bool roundOver = false;
 		int n{};
@@ -67,6 +70,11 @@ namespace blackJack {
 		int result{};
 		bool doubleDown = false;
 		int msgNum;
+		bool ace = false;
+		bool ace2 = false;
+		bool ace3 = false;
+		bool ace4 = false;
+		bool standAce = false;
 
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
@@ -86,15 +94,11 @@ namespace blackJack {
 	private: System::Windows::Forms::ImageList^ playerStack;
 	private: System::Windows::Forms::PictureBox^ playerChips;
 	private: System::Windows::Forms::PictureBox^ playerProfile;
-
-
-
 	private: System::Windows::Forms::PictureBox^ deck;
 	private: System::Windows::Forms::ImageList^ dealerStack;
 	private: System::Windows::Forms::PictureBox^ dealerChips;
 	private: System::Windows::Forms::PictureBox^ dealerFig;
 	private: System::Windows::Forms::RichTextBox^ dealerMsg;
-
 
 
 	protected:
@@ -601,7 +605,7 @@ namespace blackJack {
 			this->handTotalAmount->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalAmount->Location = System::Drawing::Point(388, 683);
+			this->handTotalAmount->Location = System::Drawing::Point(466, 683);
 			this->handTotalAmount->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->handTotalAmount->Name = L"handTotalAmount";
 			this->handTotalAmount->Size = System::Drawing::Size(36, 37);
@@ -614,7 +618,7 @@ namespace blackJack {
 			this->handTotalLabel->BackColor = System::Drawing::Color::Chartreuse;
 			this->handTotalLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->handTotalLabel->Location = System::Drawing::Point(188, 683);
+			this->handTotalLabel->Location = System::Drawing::Point(239, 683);
 			this->handTotalLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->handTotalLabel->Name = L"handTotalLabel";
 			this->handTotalLabel->Size = System::Drawing::Size(205, 37);
@@ -677,9 +681,10 @@ namespace blackJack {
 				this->Options, this->quitToolStripMenuItem,
 					this->startToolStripMenuItem
 			});
-			this->MenuBar->Location = System::Drawing::Point(15, 0);
+			this->MenuBar->Location = System::Drawing::Point(10, 0);
 			this->MenuBar->Name = L"MenuBar";
-			this->MenuBar->Size = System::Drawing::Size(2025, 55);
+			this->MenuBar->Padding = System::Windows::Forms::Padding(4, 1, 0, 1);
+			this->MenuBar->Size = System::Drawing::Size(2035, 53);
 			this->MenuBar->TabIndex = 34;
 			// 
 			// Options
@@ -691,7 +696,7 @@ namespace blackJack {
 			this->Options->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Options->Name = L"Options";
-			this->Options->Size = System::Drawing::Size(184, 53);
+			this->Options->Size = System::Drawing::Size(184, 51);
 			this->Options->Text = L"Options";
 			this->Options->Click += gcnew System::EventHandler(this, &gameWindow::toolStripMenuItem1_Click);
 			// 
@@ -718,7 +723,7 @@ namespace blackJack {
 			this->quitToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->quitToolStripMenuItem->Name = L"quitToolStripMenuItem";
-			this->quitToolStripMenuItem->Size = System::Drawing::Size(114, 53);
+			this->quitToolStripMenuItem->Size = System::Drawing::Size(114, 51);
 			this->quitToolStripMenuItem->Text = L"Quit";
 			this->quitToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::quitToolStripMenuItem_Click);
 			// 
@@ -727,7 +732,7 @@ namespace blackJack {
 			this->startToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 20.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->startToolStripMenuItem->Name = L"startToolStripMenuItem";
-			this->startToolStripMenuItem->Size = System::Drawing::Size(130, 53);
+			this->startToolStripMenuItem->Size = System::Drawing::Size(130, 51);
 			this->startToolStripMenuItem->Text = L"Start";
 			this->startToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::startToolStripMenuItem_Click);
 			// 
@@ -783,7 +788,7 @@ namespace blackJack {
 			// 
 			// chip500
 			// 
-			this->chip500->Location = System::Drawing::Point(1490, 548);
+			this->chip500->Location = System::Drawing::Point(1498, 548);
 			this->chip500->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->chip500->Name = L"chip500";
 			this->chip500->Size = System::Drawing::Size(105, 108);
@@ -811,9 +816,9 @@ namespace blackJack {
 			// 
 			// playerProfile
 			// 
-			this->playerProfile->ErrorImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"playerProfile.ErrorImage")));
+			this->playerProfile->ErrorImage = nullptr;
 			this->playerProfile->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"playerProfile.Image")));
-			this->playerProfile->InitialImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"playerProfile.InitialImage")));
+			this->playerProfile->InitialImage = nullptr;
 			this->playerProfile->Location = System::Drawing::Point(63, 791);
 			this->playerProfile->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->playerProfile->Name = L"playerProfile";
@@ -852,10 +857,10 @@ namespace blackJack {
 			// 
 			// dealerFig
 			// 
-			this->dealerFig->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dealerFig.BackgroundImage")));
+			this->dealerFig->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dealerFig.Image")));
 			this->dealerFig->Location = System::Drawing::Point(72, 92);
 			this->dealerFig->Name = L"dealerFig";
-			this->dealerFig->Size = System::Drawing::Size(168, 165);
+			this->dealerFig->Size = System::Drawing::Size(190, 171);
 			this->dealerFig->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
 			this->dealerFig->TabIndex = 37;
 			this->dealerFig->TabStop = false;
@@ -924,9 +929,8 @@ namespace blackJack {
 			this->Controls->Add(this->MenuBar);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MainMenuStrip = this->MenuBar;
-			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"gameWindow";
-			this->Padding = System::Windows::Forms::Padding(15, 0, 15, 0);
+			this->Padding = System::Windows::Forms::Padding(10, 0, 10, 0);
 			this->Text = L"gameWindow";
 			this->Load += gcnew System::EventHandler(this, &gameWindow::gameWindow_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->EndInit();
@@ -959,7 +963,7 @@ namespace blackJack {
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
 	{
-
+		
 	}
 
 
@@ -1216,8 +1220,8 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
-				roundOver = true;
 				dealerTalks(4);
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
@@ -1252,8 +1256,8 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
-						roundOver = true;
 						dealerTalks(4);
+						roundOver = true;
 					}
 					else
 					{
@@ -1292,8 +1296,8 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
-				roundOver = true;
 				dealerTalks(4);
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
@@ -1329,8 +1333,8 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
-						roundOver = true;
 						dealerTalks(4);
+						roundOver = true;
 					}
 					else
 					{
@@ -1369,8 +1373,8 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
-				roundOver = true;
 				dealerTalks(4);
+				roundOver = true;
 			}
 
 			if (playerValue > 21)
@@ -1442,17 +1446,17 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 				return resetTurn();
-				dealerTalks(2);
 			}
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "Bust!";
 				playerLoses();
+				dealerTalks(2);
 				roundOver = true;
 				return resetTurn();
-				dealerTalks(2);
 			}
 			else
 			{
@@ -1472,6 +1476,7 @@ namespace blackJack {
 		dealerTalks(1);
 		playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+
 		for (int i = 0; i < 5; i++)
 		{
 			newCard();
@@ -1543,9 +1548,9 @@ namespace blackJack {
 				dealerHandTotal->Text = "Blackjack!";
 				handTotalAmount->Text = "You lose!";
 				playerLoses();
+				dealerTalks(2);
 				roundOver = true;
 				dealerBlackjack = true;
-				dealerTalks(2);
 			}
 			else if (dealerAce1)
 			{
@@ -1583,13 +1588,14 @@ namespace blackJack {
 				{
 					handTotalAmount->Text = "Blackjack!";
 					playerWins();
-					roundOver = true;
 					dealerTalks(4);
+					roundOver = true;
 				}
 				else
 				{
 					softAce = playerValue - 10;
 					handTotalAmount->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(playerValue);
+					standAce = true;
 				}
 			}
 			else
@@ -1602,9 +1608,9 @@ namespace blackJack {
 		{
 			handTotalAmount->Text = "Blackjack!";
 			playerWins();
+			dealerTalks(4);
 			roundOver = true;
 			return resetTurn();
-			dealerTalks(4);
 		}
 
 		betPlaced = true;
@@ -1618,6 +1624,10 @@ namespace blackJack {
 
 	private: void standExecute()
 	{
+		if (standAce)
+		{
+			handTotalAmount->Text = System::Convert::ToString(playerValue);
+		}
 		if (betPlaced == false || roundOver == true)
 		{
 			return;
@@ -1700,20 +1710,20 @@ namespace blackJack {
 				if (handTotalAmount->Text == "Blackjack!")
 				{
 					playerWins();
-					roundOver = true;
 					dealerTalks(4);
+					roundOver = true;
 				}
 				else if (dealerHandTotal->Text == "Dealer Busts!")
 				{
 					playerWins();
-					roundOver = true;
 					dealerTalks(3);
+					roundOver = true;
 				}
 				else if (playerValue > softAce && playerValue > dealerValue)
 				{
 					playerWins();
-					roundOver = true;
 					dealerTalks(6);
+					roundOver = true;
 				}
 				else if (playerValue == dealerValue)
 				{
@@ -1759,83 +1769,39 @@ namespace blackJack {
 		dealerValue += totalValue(n);
 		if (dealerValue > 21)
 		{
-			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
+			if (dealerAce1 && !ace)
 			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce);
-					dealerValue = softAce;
-					dealerAce1 = false;
-				}
-				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
-				}
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace = true;
+			}
+			else if (dealerAce1 && dealerAce2 && !ace2)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace2 = true;
+			}
+			else if (dealerAce1 && dealerAce2 && dealerAce3 && !ace3)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace3 = true;
+			}
+			else if (dealerAce1 && dealerAce2 && dealerAce3 && dealerAce4 && !ace4)
+			{
+				dealerValue -= 10;
+				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
+				ace4 = true;
 			}
 			else
 			{
 				dealerHandTotal->Text = "Dealer Busts!";
 				dealerTalks(3);
 			}
-			if (dealerAce1 && dealerAce2)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerValue -= 10;
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else if (dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-			}
 		}
 		else
 		{
-			if (dealerAce1 || dealerAce2 || dealerAce3 || dealerAce4)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce);
-					dealerValue = softAce;
-				}
-				else if (dealerValue < 21 && dealerValue > 16 || dealerValue == 21)
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(softAce) + "/" + System::Convert::ToString(dealerValue);
-				}
-			}
-			else
-			{
-				dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-			}
-			if (dealerAce1 && dealerAce2)
-			{
-				softAce = dealerValue - 10;
-				if (dealerValue > 21)
-				{
-					dealerValue -= 10;
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-				else
-				{
-					dealerHandTotal->Text = System::Convert::ToString(dealerValue);
-				}
-			}
+			dealerHandTotal->Text = System::Convert::ToString(dealerValue);
 		}
 	}
 
@@ -1893,8 +1859,8 @@ namespace blackJack {
 		this->chip50->Visible = false;
 		this->chip100->Visible = false;
 		this->chip500->Visible = false;
-
 		dealerMsg->Text = "";
+
 		for (int i = 0; i < 52; i++)
 		{
 			usedCards[i] = false;
@@ -1919,6 +1885,11 @@ namespace blackJack {
 		stand = false;
 		doubleDown = false;
 		roundOver = false;
+		ace = false;
+		ace2 = false;
+		ace3 = false;
+		ace4 = false;
+		standAce = false;
 	}
 
 	private: void resetTurn()
@@ -1978,7 +1949,9 @@ namespace blackJack {
 	}
 		   //Change Game Parameter -> Set player number
 	private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Number:", L"Player Settings", L"1 - 5", 500, 500);
+		
+		
+		gameStart();
 	}
 
 		   //Enter player name 
@@ -2002,46 +1975,80 @@ namespace blackJack {
 			}
 			else {
 				resetExecute();
-				playerCashTotal = 5000;
+				playerCashTotal = moneyDefault;
 				playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 			}
 		}
 
 	}
-	//Displays a talkbox of the dealer to give the player instructions
+private: void gameStart() {
+	String^ moneyTemp = "0";
+
+	while (true) {
+		moneyTemp = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Starting Money:", L"Game Start", L"500 to 50,000", 500, 500);
+		if (moneyTemp == """") {
+			moneyTemp = "5000";
+		}
+		if (moneyTemp == "500 to 50,000") {
+			moneyTemp = "5000";
+		}
+		try {
+			moneyDefault = System::Convert::ToInt32(moneyTemp);
+		}
+		catch (...) {
+			continue;
+		}
+		
+		break;
+	}
+	
+	
+		//moneyDefault = System::Convert::ToInt32(moneyTemp);
+		playerCashTotal = moneyDefault;
+		if (playerCashTotal < 500) {
+			playerCashTotal = 5000;
+			gameStart();
+		}
+		if (playerCashTotal > 50000) {
+			playerCashTotal = 5000;
+			gameStart();
+		}
+		
+	playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
+
+}
+	   //Displays a talkbox of the dealer to give the player instructions
 	private: void dealerTalks(int msgNum) {
 		switch (msgNum) {
-			case 1:
-				dealerMsg->Text = "Please hit or stand";
-				break;
-			case 2:
-				dealerMsg->Text = "You bust!";
-				break;
-			case 3:
-				dealerMsg->Text = "Dealer busts! You win!";
-				break;
-			case 4:
-				dealerMsg->Text = "Blackjack! You win!";
-				break;
-			case 5:
-				dealerMsg->Text = "Blackjack! Dealer wins!";
-				break;	
-			case 6:
-				dealerMsg->Text = "You win!";
-				break;
-			case 7:
-				dealerMsg->Text = "You lost!";
-				break;
-			case 8:
-				dealerMsg->Text = "Tie";
-				break;
+		case 1:
+			dealerMsg->Text = "Please hit or stand";
+			break;
+		case 2:
+			dealerMsg->Text = "You bust!";
+			break;
+		case 3:
+			dealerMsg->Text = "Dealer busts! You win!";
+			break;
+		case 4:
+			dealerMsg->Text = "Blackjack! You win!";
+			break;
+		case 5:
+			dealerMsg->Text = "Blackjack! Dealer wins!";
+			break;
+		case 6:
+			dealerMsg->Text = "You win!";
+			break;
+		case 7:
+			dealerMsg->Text = "You lost!";
+			break;
+		case 8:
+			dealerMsg->Text = "Tie";
+			break;
 		}
-		//dealerMsg->Text = "";
 	}
 private: System::Void dealerMsg_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	//dealerTalks();
+	
 }
-
 };
 
 }
