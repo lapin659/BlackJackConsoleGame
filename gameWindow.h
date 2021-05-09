@@ -97,6 +97,8 @@ namespace blackJack {
 	private: System::Windows::Forms::ImageList^ dealerStack;
 	private: System::Windows::Forms::PictureBox^ dealerChips;
 	private: System::Windows::Forms::PictureBox^ background;
+	private: System::Windows::Forms::ImageList^ bgList;
+
 
 
 	protected:
@@ -219,6 +221,7 @@ namespace blackJack {
 			this->dealerStack = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->dealerChips = (gcnew System::Windows::Forms::PictureBox());
 			this->background = (gcnew System::Windows::Forms::PictureBox());
+			this->bgList = (gcnew System::Windows::Forms::ImageList(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -824,6 +827,12 @@ namespace blackJack {
 			this->background->TabIndex = 37;
 			this->background->TabStop = false;
 			// 
+			// bgList
+			// 
+			this->bgList->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"bgList.ImageStream")));
+			this->bgList->TransparentColor = System::Drawing::Color::Transparent;
+			this->bgList->Images->SetKeyName(0, L"bj2to1blacksmL.png");
+			// 
 			// gameWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -905,7 +914,7 @@ namespace blackJack {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->background))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-			gameStart();
+
 		}
 #pragma endregion
 	private: System::Void gameWindow_Load(System::Object^ sender, System::EventArgs^ e)
