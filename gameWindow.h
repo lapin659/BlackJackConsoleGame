@@ -97,6 +97,7 @@ namespace blackJack {
 	private: System::Windows::Forms::ImageList^ dealerStack;
 	private: System::Windows::Forms::PictureBox^ dealerChips;
 	private: System::Windows::Forms::PictureBox^ background;
+	private: System::Windows::Forms::ImageList^ bgList;
 
 
 	protected:
@@ -219,6 +220,7 @@ namespace blackJack {
 			this->dealerStack = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->dealerChips = (gcnew System::Windows::Forms::PictureBox());
 			this->background = (gcnew System::Windows::Forms::PictureBox());
+			this->bgList = (gcnew System::Windows::Forms::ImageList(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -823,6 +825,12 @@ namespace blackJack {
 			this->background->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->background->TabIndex = 37;
 			this->background->TabStop = false;
+			// 
+			// bgList
+			// 
+			this->bgList->ColorDepth = System::Windows::Forms::ColorDepth::Depth8Bit;
+			this->bgList->ImageSize = System::Drawing::Size(16, 16);
+			this->bgList->TransparentColor = System::Drawing::Color::Transparent;
 			// 
 			// gameWindow
 			// 
