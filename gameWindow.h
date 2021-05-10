@@ -106,6 +106,7 @@ namespace blackJack {
 	private: System::Windows::Forms::RichTextBox^ dealerMsg;
 	private: System::Windows::Forms::Button^ reset;
 	private: System::Windows::Forms::Label^ debugText;
+	private: System::Windows::Forms::Label^ pressStartLabel;
 
 
 
@@ -237,6 +238,7 @@ namespace blackJack {
 			this->dealerMsg = (gcnew System::Windows::Forms::RichTextBox());
 			this->reset = (gcnew System::Windows::Forms::Button());
 			this->debugText = (gcnew System::Windows::Forms::Label());
+			this->pressStartLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -882,6 +884,20 @@ namespace blackJack {
 			this->debugText->Size = System::Drawing::Size(66, 25);
 			this->debugText->TabIndex = 18;
 			this->debugText->Text = L"TEST";
+			this->debugText->Visible = false;
+			// 
+			// pressStartLabel
+			// 
+			this->pressStartLabel->AutoSize = true;
+			this->pressStartLabel->BackColor = System::Drawing::Color::Yellow;
+			this->pressStartLabel->Font = (gcnew System::Drawing::Font(L"Palatino Linotype", 50.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->pressStartLabel->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->pressStartLabel->Location = System::Drawing::Point(256, 38);
+			this->pressStartLabel->Name = L"pressStartLabel";
+			this->pressStartLabel->Size = System::Drawing::Size(821, 89);
+			this->pressStartLabel->TabIndex = 42;
+			this->pressStartLabel->Text = L"PRESS START TO BEGIN";
 			// 
 			// gameWindow
 			// 
@@ -891,6 +907,7 @@ namespace blackJack {
 				static_cast<System::Int32>(static_cast<System::Byte>(32)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(1345, 763);
+			this->Controls->Add(this->pressStartLabel);
 			this->Controls->Add(this->dealerMsg);
 			this->Controls->Add(this->playerProfile);
 			this->Controls->Add(this->dealerFig);
@@ -2006,6 +2023,7 @@ namespace blackJack {
 			gameStart();
 			MessageBox::Show("Place your bet to start: ", "Start New Game");
 			start = true;
+			this->pressStartLabel->Visible = false;
 		}
 
 		//Player loses game
