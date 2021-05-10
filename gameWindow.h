@@ -100,6 +100,11 @@ namespace blackJack {
 	private: System::Windows::Forms::PictureBox^ background;
 	private: System::Windows::Forms::ImageList^ bgList;
 	private: System::Windows::Forms::TextBox^ dealerMsg;
+	private: System::Windows::Forms::PictureBox^ dealerFig;
+	private: System::Windows::Forms::PictureBox^ playerProfile;
+
+
+
 
 
 
@@ -225,6 +230,8 @@ namespace blackJack {
 			this->background = (gcnew System::Windows::Forms::PictureBox());
 			this->bgList = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->dealerMsg = (gcnew System::Windows::Forms::TextBox());
+			this->dealerFig = (gcnew System::Windows::Forms::PictureBox());
+			this->playerProfile = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -247,6 +254,8 @@ namespace blackJack {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->deck))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerChips))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->background))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerFig))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerProfile))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// hitButton
@@ -745,10 +754,10 @@ namespace blackJack {
 			// playerName
 			// 
 			this->playerName->AutoSize = true;
-			this->playerName->BackColor = System::Drawing::Color::LightGreen;
+			this->playerName->BackColor = System::Drawing::Color::SandyBrown;
 			this->playerName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->playerName->Location = System::Drawing::Point(38, 1071);
+			this->playerName->Location = System::Drawing::Point(79, 1051);
 			this->playerName->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->playerName->Name = L"playerName";
 			this->playerName->Size = System::Drawing::Size(202, 37);
@@ -877,12 +886,33 @@ namespace blackJack {
 			// 
 			// dealerMsg
 			// 
+			this->dealerMsg->BackColor = System::Drawing::SystemColors::Info;
 			this->dealerMsg->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dealerMsg->Location = System::Drawing::Point(18, 279);
+			this->dealerMsg->Location = System::Drawing::Point(15, 279);
 			this->dealerMsg->Name = L"dealerMsg";
 			this->dealerMsg->Size = System::Drawing::Size(372, 44);
 			this->dealerMsg->TabIndex = 38;
+			// 
+			// dealerFig
+			// 
+			this->dealerFig->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dealerFig.Image")));
+			this->dealerFig->Location = System::Drawing::Point(73, 78);
+			this->dealerFig->Name = L"dealerFig";
+			this->dealerFig->Size = System::Drawing::Size(220, 195);
+			this->dealerFig->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->dealerFig->TabIndex = 39;
+			this->dealerFig->TabStop = false;
+			// 
+			// playerProfile
+			// 
+			this->playerProfile->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"playerProfile.Image")));
+			this->playerProfile->Location = System::Drawing::Point(73, 791);
+			this->playerProfile->Name = L"playerProfile";
+			this->playerProfile->Size = System::Drawing::Size(220, 202);
+			this->playerProfile->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->playerProfile->TabIndex = 40;
+			this->playerProfile->TabStop = false;
 			// 
 			// gameWindow
 			// 
@@ -892,6 +922,8 @@ namespace blackJack {
 				static_cast<System::Int32>(static_cast<System::Byte>(32)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(2055, 1152);
+			this->Controls->Add(this->playerProfile);
+			this->Controls->Add(this->dealerFig);
 			this->Controls->Add(this->dealerMsg);
 			this->Controls->Add(this->dealerChips);
 			this->Controls->Add(this->deck);
@@ -965,6 +997,8 @@ namespace blackJack {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->deck))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerChips))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->background))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dealerFig))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerProfile))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 			gameStart();
@@ -1955,9 +1989,7 @@ namespace blackJack {
 		if (System::Windows::Forms::DialogResult::Yes == res) {
 			exit(3);
 		}
-		else {
-			return;
-		}
+	
 	}
 		   //Change Game Parameter -> Set player number
 	private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -2033,7 +2065,7 @@ private: void gameStart() {
 private: void dealerTalks(int msgNum) {
 	switch (msgNum) {
 	case 1:
-		dealerMsg->Text = "Please hit or stand";
+		dealerMsg->Text = "Please press the hit, stand or double button below";
 		break;
 	case 2:
 		dealerMsg->Text = "You bust!";
@@ -2054,7 +2086,7 @@ private: void dealerTalks(int msgNum) {
 		dealerMsg->Text = "You lost!";
 		break;
 	case 8:
-		dealerMsg->Text = "Tie";
+		dealerMsg->Text = "Tie, another round?";
 		break;
 	}
 }
