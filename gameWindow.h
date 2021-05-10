@@ -99,9 +99,11 @@ namespace blackJack {
 	private: System::Windows::Forms::PictureBox^ dealerChips;
 	private: System::Windows::Forms::PictureBox^ background;
 	private: System::Windows::Forms::ImageList^ bgList;
-	private: System::Windows::Forms::TextBox^ dealerMsg;
+
 	private: System::Windows::Forms::PictureBox^ dealerFig;
 	private: System::Windows::Forms::PictureBox^ playerProfile;
+	private: System::Windows::Forms::RichTextBox^ dealerMsg;
+
 
 
 
@@ -229,9 +231,9 @@ namespace blackJack {
 			this->dealerChips = (gcnew System::Windows::Forms::PictureBox());
 			this->background = (gcnew System::Windows::Forms::PictureBox());
 			this->bgList = (gcnew System::Windows::Forms::ImageList(this->components));
-			this->dealerMsg = (gcnew System::Windows::Forms::TextBox());
 			this->dealerFig = (gcnew System::Windows::Forms::PictureBox());
 			this->playerProfile = (gcnew System::Windows::Forms::PictureBox());
+			this->dealerMsg = (gcnew System::Windows::Forms::RichTextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -699,7 +701,7 @@ namespace blackJack {
 			});
 			this->MenuBar->Location = System::Drawing::Point(15, 0);
 			this->MenuBar->Name = L"MenuBar";
-			this->MenuBar->Size = System::Drawing::Size(2025, 55);
+			this->MenuBar->Size = System::Drawing::Size(2025, 57);
 			this->MenuBar->TabIndex = 34;
 			// 
 			// Options
@@ -884,16 +886,6 @@ namespace blackJack {
 			this->bgList->ImageSize = System::Drawing::Size(16, 16);
 			this->bgList->TransparentColor = System::Drawing::Color::Transparent;
 			// 
-			// dealerMsg
-			// 
-			this->dealerMsg->BackColor = System::Drawing::SystemColors::Info;
-			this->dealerMsg->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->dealerMsg->Location = System::Drawing::Point(15, 279);
-			this->dealerMsg->Name = L"dealerMsg";
-			this->dealerMsg->Size = System::Drawing::Size(372, 44);
-			this->dealerMsg->TabIndex = 38;
-			// 
 			// dealerFig
 			// 
 			this->dealerFig->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"dealerFig.Image")));
@@ -914,6 +906,17 @@ namespace blackJack {
 			this->playerProfile->TabIndex = 40;
 			this->playerProfile->TabStop = false;
 			// 
+			// dealerMsg
+			// 
+			this->dealerMsg->BackColor = System::Drawing::SystemColors::Info;
+			this->dealerMsg->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->dealerMsg->Location = System::Drawing::Point(2, 279);
+			this->dealerMsg->Name = L"dealerMsg";
+			this->dealerMsg->Size = System::Drawing::Size(366, 128);
+			this->dealerMsg->TabIndex = 41;
+			this->dealerMsg->Text = L"";
+			// 
 			// gameWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -922,9 +925,9 @@ namespace blackJack {
 				static_cast<System::Int32>(static_cast<System::Byte>(32)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(2055, 1152);
+			this->Controls->Add(this->dealerMsg);
 			this->Controls->Add(this->playerProfile);
 			this->Controls->Add(this->dealerFig);
-			this->Controls->Add(this->dealerMsg);
 			this->Controls->Add(this->dealerChips);
 			this->Controls->Add(this->deck);
 			this->Controls->Add(this->winnings);
@@ -1986,10 +1989,14 @@ namespace blackJack {
 		   //Exit Game Option
 	private: System::Void quitToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		System::Windows::Forms::DialogResult res = MessageBox::Show("Quit the game now? ", "Quit the game", MessageBoxButtons::YesNo, MessageBoxIcon::Question);
-		if (System::Windows::Forms::DialogResult::Yes == res) {
-			exit(3);
+		try{
+			if (System::Windows::Forms::DialogResult::Yes == res) {
+				exit(3);
+			}
 		}
-	
+		catch (...) {
+
+		}
 	}
 		   //Change Game Parameter -> Set player number
 	private: System::Void changeGameParametersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
