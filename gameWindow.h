@@ -877,9 +877,11 @@ namespace blackJack {
 			// 
 			// dealerMsg
 			// 
-			this->dealerMsg->Location = System::Drawing::Point(26, 323);
+			this->dealerMsg->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->dealerMsg->Location = System::Drawing::Point(18, 279);
 			this->dealerMsg->Name = L"dealerMsg";
-			this->dealerMsg->Size = System::Drawing::Size(254, 26);
+			this->dealerMsg->Size = System::Drawing::Size(372, 44);
 			this->dealerMsg->TabIndex = 38;
 			// 
 			// gameWindow
@@ -1110,6 +1112,7 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
+						dealerTalks(4);
 						roundOver = true;
 					}
 					else
@@ -1149,6 +1152,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 			}
 
@@ -1157,6 +1161,7 @@ namespace blackJack {
 				handTotalAmount->Text = "You bust!";
 				roundOver = true;
 				playerLoses();
+				dealerTalks(2);
 			}
 
 
@@ -1184,6 +1189,7 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
+						dealerTalks(4);
 						roundOver = true;
 					}
 					else
@@ -1223,6 +1229,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 			}
 
@@ -1231,6 +1238,7 @@ namespace blackJack {
 				handTotalAmount->Text = "You bust!";
 				roundOver = true;
 				playerLoses();
+				dealerTalks(2);
 			}
 		}
 
@@ -1257,6 +1265,7 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
+						dealerTalks(4);
 						roundOver = true;
 					}
 					else
@@ -1296,6 +1305,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 			}
 
@@ -1303,6 +1313,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "You bust!";
 				roundOver = true;
+				dealerTalks(2);
 			}
 
 
@@ -1331,6 +1342,7 @@ namespace blackJack {
 					{
 						handTotalAmount->Text = "Blackjack!";
 						playerWins();
+						dealerTalks(4);
 						roundOver = true;
 					}
 					else
@@ -1370,12 +1382,14 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 			}
 
 			if (playerValue > 21)
 			{
 				handTotalAmount->Text = "You bust!";
+				dealerTalks(2);
 				roundOver = true;
 			}
 
@@ -1441,6 +1455,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Blackjack!";
 				playerWins();
+				dealerTalks(4);
 				roundOver = true;
 				return resetTurn();
 			}
@@ -1448,6 +1463,7 @@ namespace blackJack {
 			{
 				handTotalAmount->Text = "Bust!";
 				playerLoses();
+				dealerTalks(2);
 				roundOver = true;
 				return resetTurn();
 			}
@@ -1466,7 +1482,7 @@ namespace blackJack {
 		{
 			return;
 		}
-
+		dealerTalks(1);
 		playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
@@ -1540,6 +1556,7 @@ namespace blackJack {
 				this->dealerCardBox02->Visible = true;
 				dealerHandTotal->Text = "Blackjack!";
 				handTotalAmount->Text = "You lose!";
+				dealerTalks(2);
 				playerLoses();
 				roundOver = true;
 				dealerBlackjack = true;
@@ -1580,6 +1597,7 @@ namespace blackJack {
 				{
 					handTotalAmount->Text = "Blackjack!";
 					playerWins();
+					dealerTalks(4);
 					roundOver = true;
 				}
 				else
@@ -1599,6 +1617,7 @@ namespace blackJack {
 		{
 			handTotalAmount->Text = "Blackjack!";
 			playerWins();
+			dealerTalks(4);
 			roundOver = true;
 			return resetTurn();
 		}
@@ -1700,27 +1719,32 @@ namespace blackJack {
 				if (handTotalAmount->Text == "Blackjack!")
 				{
 					playerWins();
+					dealerTalks(4);
 					roundOver = true;
 				}
 				else if (dealerHandTotal->Text == "Dealer Busts!")
 				{
 					playerWins();
+					dealerTalks(3);
 					roundOver = true;
 				}
 				else if (playerValue > softAce && playerValue > dealerValue)
 				{
 					playerWins();
+					dealerTalks(6);
 					roundOver = true;
 				}
 				else if (playerValue == dealerValue)
 				{
 					handTotalAmount->Text = System::Convert::ToInt16(handTotalAmount->Text) + " Push";
 					playerTies();
+					dealerTalks(8);
 					roundOver = true;
 				}
 				else
 				{
 					playerLoses();
+					dealerTalks(7);
 					roundOver = true;
 				}
 			}
@@ -1781,6 +1805,7 @@ namespace blackJack {
 			else
 			{
 				dealerHandTotal->Text = "Dealer Busts!";
+				dealerTalks(3);
 			}
 		}
 		else
@@ -1844,6 +1869,8 @@ namespace blackJack {
 		this->chip100->Visible = false;
 		this->chip500->Visible = false;
 		this->winnings->Visible = false;
+
+		dealerMsg->Text = "";
 
 		for (int i = 0; i < 52; i++)
 		{
