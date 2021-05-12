@@ -63,7 +63,13 @@ namespace blackJack {
 		int n{};
 		int playerValue{};
 		int softAce{};
+		int ten{};
+		int temp{};
+		int fiveHundred{};
+		int oneHundred{};
+		int fifty{};
 		int dealerValue{};
+		int customBetAmount{};
 		bool PlayerValue2Exists = false;
 		bool playerAce = false;
 		bool playerAce2 = false;
@@ -115,6 +121,9 @@ namespace blackJack {
 	private: System::Windows::Forms::PictureBox^ playerProfile;
 	private: System::Windows::Forms::RichTextBox^ dealerMsg;
 	private: System::Windows::Forms::Label^ pressStartLabel;
+	private: System::Windows::Forms::TextBox^ customBet;
+	private: System::Windows::Forms::Label^ customBetText;
+
 
 
 
@@ -245,6 +254,8 @@ namespace blackJack {
 			this->playerProfile = (gcnew System::Windows::Forms::PictureBox());
 			this->dealerMsg = (gcnew System::Windows::Forms::RichTextBox());
 			this->pressStartLabel = (gcnew System::Windows::Forms::Label());
+			this->customBet = (gcnew System::Windows::Forms::TextBox());
+			this->customBetText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox02))->BeginInit();
@@ -322,7 +333,7 @@ namespace blackJack {
 			this->totalCashLabel->BackColor = System::Drawing::Color::DarkGray;
 			this->totalCashLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->totalCashLabel->Location = System::Drawing::Point(1067, 645);
+			this->totalCashLabel->Location = System::Drawing::Point(1102, 683);
 			this->totalCashLabel->Name = L"totalCashLabel";
 			this->totalCashLabel->Size = System::Drawing::Size(160, 25);
 			this->totalCashLabel->TabIndex = 3;
@@ -472,7 +483,7 @@ namespace blackJack {
 			this->playerTotalCashAmount->BackColor = System::Drawing::Color::DarkGray;
 			this->playerTotalCashAmount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Bold,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->playerTotalCashAmount->Location = System::Drawing::Point(1225, 645);
+			this->playerTotalCashAmount->Location = System::Drawing::Point(1222, 683);
 			this->playerTotalCashAmount->Name = L"playerTotalCashAmount";
 			this->playerTotalCashAmount->Size = System::Drawing::Size(25, 25);
 			this->playerTotalCashAmount->TabIndex = 17;
@@ -642,9 +653,9 @@ namespace blackJack {
 			// 
 			this->placeBet->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->placeBet->Location = System::Drawing::Point(1126, 613);
+			this->placeBet->Location = System::Drawing::Point(1130, 646);
 			this->placeBet->Name = L"placeBet";
-			this->placeBet->Size = System::Drawing::Size(101, 29);
+			this->placeBet->Size = System::Drawing::Size(100, 29);
 			this->placeBet->TabIndex = 29;
 			this->placeBet->Text = L"Place Bet";
 			this->placeBet->UseVisualStyleBackColor = true;
@@ -881,6 +892,26 @@ namespace blackJack {
 			this->pressStartLabel->TabIndex = 42;
 			this->pressStartLabel->Text = L"PRESS START TO BEGIN";
 			// 
+			// customBet
+			// 
+			this->customBet->Location = System::Drawing::Point(1201, 620);
+			this->customBet->Name = L"customBet";
+			this->customBet->Size = System::Drawing::Size(94, 20);
+			this->customBet->TabIndex = 43;
+			this->customBet->TextChanged += gcnew System::EventHandler(this, &gameWindow::customBet_TextChanged);
+			// 
+			// customBetText
+			// 
+			this->customBetText->AutoSize = true;
+			this->customBetText->BackColor = System::Drawing::Color::DarkGray;
+			this->customBetText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->customBetText->Location = System::Drawing::Point(1071, 616);
+			this->customBetText->Name = L"customBetText";
+			this->customBetText->Size = System::Drawing::Size(122, 24);
+			this->customBetText->TabIndex = 44;
+			this->customBetText->Text = L"Custom Bet:";
+			// 
 			// gameWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -889,6 +920,8 @@ namespace blackJack {
 				static_cast<System::Int32>(static_cast<System::Byte>(32)));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(1345, 763);
+			this->Controls->Add(this->customBetText);
+			this->Controls->Add(this->customBet);
 			this->Controls->Add(this->pressStartLabel);
 			this->Controls->Add(this->dealerMsg);
 			this->Controls->Add(this->playerProfile);
@@ -979,7 +1012,7 @@ namespace blackJack {
 	{
 		if (start)
 		{
-			if (!betPlaced)
+			if (!betPlaced && 10 < playerCashTotal)
 			{
 				this->chip10->Image = chipList->Images[0];
 				this->chip10->Visible = true;
@@ -1000,13 +1033,12 @@ namespace blackJack {
 			return;
 		}
 
-
 	}
 	private: System::Void bet50Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		if (start)
 		{
-			if (!betPlaced)
+			if (!betPlaced && 50 < playerCashTotal)
 			{
 				this->chip50->Image = chipList->Images[1];
 				this->chip50->Visible = true;
@@ -1032,7 +1064,7 @@ namespace blackJack {
 	{
 		if (start)
 		{
-			if (!betPlaced)
+			if (!betPlaced && 100 < playerCashTotal)
 			{
 				this->chip100->Image = chipList->Images[2];
 				this->chip100->Visible = true;
@@ -1058,7 +1090,7 @@ namespace blackJack {
 	{
 		if (start)
 		{
-			if (!betPlaced)
+			if (!betPlaced && 500 < playerCashTotal)
 			{
 				this->chip500->Image = chipList->Images[3];
 				this->chip500->Visible = true;
@@ -1091,6 +1123,7 @@ namespace blackJack {
 		this->chip50->Visible = false;
 		this->chip100->Visible = false;
 		this->chip500->Visible = false;
+		this->customBet->Text = "";
 	}
 
 		   //HIT STAND DOUBLE BUTTONS
@@ -1894,6 +1927,7 @@ namespace blackJack {
 		this->chip100->Visible = false;
 		this->chip500->Visible = false;
 		this->winnings->Visible = false;
+		this->customBet->Text = "0";
 
 		dealerMsg->Text = "";
 
@@ -1906,6 +1940,11 @@ namespace blackJack {
 		playerBetAmount->Text = System::Convert::ToString(0);
 		n = 0;
 		playerValue = 0;
+		ten = 0;
+		fifty = 0;
+		oneHundred = 0;
+		fiveHundred = 0;
+		temp = 0;
 		softAce = 0;
 		PlayerValue2Exists = false;
 		playerAce = false;
@@ -2089,6 +2128,90 @@ namespace blackJack {
 			break;
 		}
 	}
-	};
+private: System::Void customBet_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (start)
+	{
+		customBetAmount = System::Convert::ToInt32(customBet->Text);
+		if (customBetAmount % 10 > 0)
+		{
+			dealerMsg->Text = "Please enter a multiple of 10.";
+			return;
+		}
+		if (!betPlaced && customBetAmount < playerCashTotal)
+		{
+			if (customBetAmount >= 500)
+			{
+				this->chip500->Image = chipList->Images[3];
+				this->chip500->Visible = true;
+				temp = customBetAmount - 500;
+				if (temp >= 100)
+				{
+					this->chip100->Image = chipList->Images[2];
+					this->chip100->Visible = true;
+					temp = customBetAmount - 100;
+				}
+				if (temp >= 50)
+				{
+					this->chip50->Image = chipList->Images[1];
+					this->chip50->Visible = true;
+					temp = customBetAmount - 50;
+				}
+				if (temp >= 10)
+				{
+					this->chip10->Image = chipList->Images[0];
+					this->chip10->Visible = true;
+				}	
+			}
+			else if (customBetAmount >= 100 && customBetAmount < 500)
+			{
+				this->chip100->Image = chipList->Images[2];
+				this->chip100->Visible = true;
+				temp = customBetAmount - 100;
+				if (temp >= 50)
+				{
+					this->chip50->Image = chipList->Images[1];
+					this->chip50->Visible = true;
+					temp = customBetAmount - 50;
+				}
+				if (temp >= 10)
+				{
+					this->chip10->Image = chipList->Images[0];
+					this->chip10->Visible = true;
+				}
+			}
+			else if (customBetAmount >= 50 && customBetAmount < 100)
+			{
+				this->chip50->Image = chipList->Images[1];
+				this->chip50->Visible = true;
+				temp = customBetAmount - 50;
+				if (temp >= 10)
+				{
+					this->chip10->Image = chipList->Images[0];
+					this->chip10->Visible = true;
+				}
+			}
+			else if(customBetAmount >= 10 && customBetAmount < 50)
+			{
+				this->chip10->Image = chipList->Images[0];
+				this->chip10->Visible = true;
+			}
+		}
+		if (betPlaced == true)
+		{
+			return;
+		}
+		result = customBetAmount;
+		if (result > playerCashTotal)
+		{
+			return;
+		}
+		playerBetAmount->Text = System::Convert::ToString(result);
+	}
+	else
+	{
+		return;
+	}
+}
+};
 
 }
