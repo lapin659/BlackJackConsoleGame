@@ -1027,6 +1027,8 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
+			this->chip10->Image = chipList->Images[0];
+			this->chip10->Visible = true;
 		}
 		else
 		{
@@ -1053,6 +1055,8 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
+			this->chip50->Image = chipList->Images[1];
+			this->chip50->Visible = true;
 		}
 		else
 		{
@@ -1079,6 +1083,8 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
+			this->chip100->Image = chipList->Images[2];
+			this->chip100->Visible = true;
 		}
 		else
 		{
@@ -1105,6 +1111,8 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
+			this->chip500->Image = chipList->Images[3];
+			this->chip500->Visible = true;
 		}
 		else
 		{
