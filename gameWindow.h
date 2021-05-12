@@ -8,9 +8,19 @@
 #include <sstream>
 
 
+#pragma once
+#include <string>
+#include <cstdlib>
+#include <time.h>
+#include <stdlib.h>
+#include <iostream>
+#include <windows.h>
+#include <sstream>
+
+
 #using <system.windows.forms.dll>
 #using <Microsoft.VisualBasic.dll>
-//current version as of 5_5 2:00pm
+//current version as of 5_12 12:30am
 namespace blackJack {
 
 	using namespace System;
@@ -104,8 +114,6 @@ namespace blackJack {
 	private: System::Windows::Forms::PictureBox^ dealerFig;
 	private: System::Windows::Forms::PictureBox^ playerProfile;
 	private: System::Windows::Forms::RichTextBox^ dealerMsg;
-	private: System::Windows::Forms::Button^ reset;
-	private: System::Windows::Forms::Label^ debugText;
 	private: System::Windows::Forms::Label^ pressStartLabel;
 
 
@@ -236,8 +244,6 @@ namespace blackJack {
 			this->dealerFig = (gcnew System::Windows::Forms::PictureBox());
 			this->playerProfile = (gcnew System::Windows::Forms::PictureBox());
 			this->dealerMsg = (gcnew System::Windows::Forms::RichTextBox());
-			this->reset = (gcnew System::Windows::Forms::Button());
-			this->debugText = (gcnew System::Windows::Forms::Label());
 			this->pressStartLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox05))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->playerCardBox01))->BeginInit();
@@ -862,30 +868,6 @@ namespace blackJack {
 			this->dealerMsg->TabIndex = 41;
 			this->dealerMsg->Text = L"";
 			// 
-			// reset
-			// 
-			this->reset->Location = System::Drawing::Point(1245, 302);
-			this->reset->Margin = System::Windows::Forms::Padding(2);
-			this->reset->Name = L"reset";
-			this->reset->Size = System::Drawing::Size(75, 23);
-			this->reset->TabIndex = 30;
-			this->reset->Text = L"Debug reset\r\n";
-			this->reset->UseVisualStyleBackColor = true;
-			this->reset->Click += gcnew System::EventHandler(this, &gameWindow::reset_Click);
-			// 
-			// debugText
-			// 
-			this->debugText->AutoSize = true;
-			this->debugText->BackColor = System::Drawing::Color::DarkGray;
-			this->debugText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->debugText->Location = System::Drawing::Point(1030, 440);
-			this->debugText->Name = L"debugText";
-			this->debugText->Size = System::Drawing::Size(66, 25);
-			this->debugText->TabIndex = 18;
-			this->debugText->Text = L"TEST";
-			this->debugText->Visible = false;
-			// 
 			// pressStartLabel
 			// 
 			this->pressStartLabel->AutoSize = true;
@@ -920,7 +902,6 @@ namespace blackJack {
 			this->Controls->Add(this->chip50);
 			this->Controls->Add(this->chip10);
 			this->Controls->Add(this->playerName);
-			this->Controls->Add(this->reset);
 			this->Controls->Add(this->placeBet);
 			this->Controls->Add(this->dealerHandTotal);
 			this->Controls->Add(this->dealerHandLabel);
@@ -932,7 +913,6 @@ namespace blackJack {
 			this->Controls->Add(this->dealerCardBox04);
 			this->Controls->Add(this->dealerCardBox05);
 			this->Controls->Add(this->dealerCardBox06);
-			this->Controls->Add(this->debugText);
 			this->Controls->Add(this->playerTotalCashAmount);
 			this->Controls->Add(this->clearBetButton);
 			this->Controls->Add(this->bet500Button);
@@ -1008,7 +988,7 @@ namespace blackJack {
 			{
 				return;
 			}
-			result = System::Convert::ToInt16(playerBetAmount->Text) + 10;
+			result = System::Convert::ToInt32(playerBetAmount->Text) + 10;
 			if (result > playerCashTotal)
 			{
 				return;
@@ -1035,7 +1015,7 @@ namespace blackJack {
 			{
 				return;
 			}
-			result = System::Convert::ToInt16(playerBetAmount->Text) + 50;
+			result = System::Convert::ToInt32(playerBetAmount->Text) + 50;
 			if (result > playerCashTotal)
 			{
 				return;
@@ -1061,7 +1041,7 @@ namespace blackJack {
 			{
 				return;
 			}
-			result = System::Convert::ToInt16(playerBetAmount->Text) + 100;
+			result = System::Convert::ToInt32(playerBetAmount->Text) + 100;
 			if (result > playerCashTotal)
 			{
 				return;
@@ -1087,7 +1067,7 @@ namespace blackJack {
 			{
 				return;
 			}
-			result = System::Convert::ToInt16(playerBetAmount->Text) + 500;
+			result = System::Convert::ToInt32(playerBetAmount->Text) + 500;
 			if (result > playerCashTotal)
 			{
 				return;
@@ -1107,6 +1087,10 @@ namespace blackJack {
 			return;
 		}
 		playerBetAmount->Text = System::Convert::ToString(0);
+		this->chip10->Visible = false;
+		this->chip50->Visible = false;
+		this->chip100->Visible = false;
+		this->chip500->Visible = false;
 	}
 
 		   //HIT STAND DOUBLE BUTTONS
@@ -1124,14 +1108,14 @@ namespace blackJack {
 
 		{
 
-			this->debugText->Text = "box 1";
+
 			this->playerCardBox01->Image = Cards->Images[n];
 			this->playerCardBox01->Visible = true;
 		}
 
 		else if (this->playerCardBox02->Visible == false)
 		{
-			this->debugText->Text = "box 2";
+
 			this->playerCardBox02->Image = Cards->Images[n];
 			this->playerCardBox02->Visible = true;
 		}
@@ -1139,7 +1123,6 @@ namespace blackJack {
 		else if (this->playerCardBox03->Visible == false)
 		{
 			bool playerAce3 = false;
-			this->debugText->Text = "box 3";
 			this->playerCardBox03->Image = Cards->Images[n];
 			this->playerCardBox03->Visible = true;
 			playerValue += totalValue(n);
@@ -1216,7 +1199,6 @@ namespace blackJack {
 		else if (this->playerCardBox04->Visible == false)
 		{
 			bool playerAce4 = false;
-			this->debugText->Text = "box 4";
 			this->playerCardBox04->Image = Cards->Images[n];
 			this->playerCardBox04->Visible = true;
 			playerValue += totalValue(n);
@@ -1291,7 +1273,6 @@ namespace blackJack {
 		else if (this->playerCardBox05->Visible == false)
 		{
 			bool playerAce5 = false;
-			this->debugText->Text = "box 5";
 			this->playerCardBox05->Image = Cards->Images[n];
 			this->playerCardBox05->Visible = true;
 			playerValue += totalValue(n);
@@ -1368,7 +1349,6 @@ namespace blackJack {
 		else if (this->playerCardBox06->Visible == false)
 		{
 			bool playerAce6 = false;
-			this->debugText->Text = "box 6";
 			this->playerCardBox06->Image = Cards->Images[n];
 			this->playerCardBox06->Visible = true;
 			playerValue += totalValue(n);
@@ -1442,7 +1422,6 @@ namespace blackJack {
 		}
 		else
 		{
-			this->debugText->Text = "return";
 			return resetTurn();
 		}
 		hit = true;
@@ -1453,14 +1432,15 @@ namespace blackJack {
 	{
 		if (!hit && betPlaced && !stand)
 		{
-			if (result * 2 > playerCashTotal)
+			if (result > playerCashTotal)
 			{
+				dealerTalks(9);
 				return;
 			}
 
 			result *= 2;
 			playerBetAmount->Text = System::Convert::ToString(result);
-			playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text) / 2;
+			playerCashTotal -= System::Convert::ToInt32(playerBetAmount->Text) / 2;
 			playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 			newCard();
 			this->playerCardBox03->Image = Cards->Images[n];
@@ -1524,12 +1504,12 @@ namespace blackJack {
 
 	private: System::Void placeBet_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		if (betPlaced == true || System::Convert::ToInt16(playerBetAmount->Text) == 0)
+		if (betPlaced == true || System::Convert::ToInt32(playerBetAmount->Text) == 0)
 		{
 			return;
 		}
 		dealerTalks(1);
-		playerCashTotal -= System::Convert::ToInt16(playerBetAmount->Text);
+		playerCashTotal -= System::Convert::ToInt32(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
 		for (int i = 0; i < 5; i++)
@@ -1695,7 +1675,6 @@ namespace blackJack {
 		}
 		else if (playerValue != 21)
 		{
-			this->debugText->Text = "Stand Button Pressed";
 			this->dealerCardBox02->Image = this->dealerCardBox03->Image;
 			this->dealerCardBox02->Visible = true;
 			dealerHandTotal->Text = System::Convert::ToString(dealerValue);
@@ -1782,7 +1761,7 @@ namespace blackJack {
 				}
 				else if (playerValue == dealerValue)
 				{
-					handTotalAmount->Text = System::Convert::ToInt16(handTotalAmount->Text) + " Push";
+					handTotalAmount->Text = System::Convert::ToInt32(handTotalAmount->Text) + " Push";
 					playerTies();
 					dealerTalks(8);
 					roundOver = true;
@@ -1961,7 +1940,7 @@ namespace blackJack {
 
 	private: void playerWins()
 	{
-		playerCashTotal += 2 * System::Convert::ToInt16(playerBetAmount->Text);
+		playerCashTotal += 2 * System::Convert::ToInt32(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 		this->winnings->Image = playerStack->Images[2];
 		this->winnings->Visible = true;
@@ -1969,7 +1948,7 @@ namespace blackJack {
 
 	private: void playerTies()
 	{
-		playerCashTotal += System::Convert::ToInt16(playerBetAmount->Text);
+		playerCashTotal += System::Convert::ToInt32(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 	}
 
@@ -2104,6 +2083,9 @@ namespace blackJack {
 			break;
 		case 8:
 			dealerMsg->Text = "Tie, another round?";
+			break;
+		case 9:
+			dealerMsg->Text = "You don't have enough chips to Double!";
 			break;
 		}
 	}
