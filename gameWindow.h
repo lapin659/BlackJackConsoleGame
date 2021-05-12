@@ -97,7 +97,7 @@ namespace blackJack {
 
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
 	private: System::Windows::Forms::ToolStripMenuItem^ Options;
-	private: System::Windows::Forms::ToolStripMenuItem^ viewLeaderboardToolStripMenuItem;
+
 	private: System::Windows::Forms::ToolStripMenuItem^ quitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ changeGameParametersToolStripMenuItem;
 
@@ -234,7 +234,6 @@ namespace blackJack {
 			this->MenuBar = (gcnew System::Windows::Forms::MenuStrip());
 			this->Options = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->changeGameParametersToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->viewLeaderboardToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playerName = (gcnew System::Windows::Forms::Label());
@@ -677,10 +676,7 @@ namespace blackJack {
 			// 
 			// Options
 			// 
-			this->Options->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->changeGameParametersToolStripMenuItem,
-					this->viewLeaderboardToolStripMenuItem
-			});
+			this->Options->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->changeGameParametersToolStripMenuItem });
 			this->Options->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Options->Name = L"Options";
@@ -696,14 +692,6 @@ namespace blackJack {
 			this->changeGameParametersToolStripMenuItem->Size = System::Drawing::Size(344, 30);
 			this->changeGameParametersToolStripMenuItem->Text = L"Change Game Parameters";
 			this->changeGameParametersToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::changeGameParametersToolStripMenuItem_Click);
-			// 
-			// viewLeaderboardToolStripMenuItem
-			// 
-			this->viewLeaderboardToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->viewLeaderboardToolStripMenuItem->Name = L"viewLeaderboardToolStripMenuItem";
-			this->viewLeaderboardToolStripMenuItem->Size = System::Drawing::Size(344, 30);
-			this->viewLeaderboardToolStripMenuItem->Text = L"View Leaderboard";
 			// 
 			// quitToolStripMenuItem
 			// 
