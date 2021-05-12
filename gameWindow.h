@@ -59,7 +59,6 @@ namespace blackJack {
 		int playerCashTotal;
 		int moneyDefault;
 		bool betPlaced = false;
-		int count{};
 		bool roundOver = false;
 		int n{};
 		int playerValue{};
@@ -97,7 +96,7 @@ namespace blackJack {
 
 	private: System::Windows::Forms::MenuStrip^ MenuBar;
 	private: System::Windows::Forms::ToolStripMenuItem^ Options;
-
+	private: System::Windows::Forms::ToolStripMenuItem^ viewLeaderboardToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ quitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ changeGameParametersToolStripMenuItem;
 
@@ -234,6 +233,7 @@ namespace blackJack {
 			this->MenuBar = (gcnew System::Windows::Forms::MenuStrip());
 			this->Options = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->changeGameParametersToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->viewLeaderboardToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->startToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->playerName = (gcnew System::Windows::Forms::Label());
@@ -676,7 +676,10 @@ namespace blackJack {
 			// 
 			// Options
 			// 
-			this->Options->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->changeGameParametersToolStripMenuItem });
+			this->Options->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->changeGameParametersToolStripMenuItem,
+					this->viewLeaderboardToolStripMenuItem
+			});
 			this->Options->Font = (gcnew System::Drawing::Font(L"Arial", 20, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Options->Name = L"Options";
@@ -692,6 +695,14 @@ namespace blackJack {
 			this->changeGameParametersToolStripMenuItem->Size = System::Drawing::Size(344, 30);
 			this->changeGameParametersToolStripMenuItem->Text = L"Change Game Parameters";
 			this->changeGameParametersToolStripMenuItem->Click += gcnew System::EventHandler(this, &gameWindow::changeGameParametersToolStripMenuItem_Click);
+			// 
+			// viewLeaderboardToolStripMenuItem
+			// 
+			this->viewLeaderboardToolStripMenuItem->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->viewLeaderboardToolStripMenuItem->Name = L"viewLeaderboardToolStripMenuItem";
+			this->viewLeaderboardToolStripMenuItem->Size = System::Drawing::Size(344, 30);
+			this->viewLeaderboardToolStripMenuItem->Text = L"View Leaderboard";
 			// 
 			// quitToolStripMenuItem
 			// 
@@ -1016,8 +1027,6 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
-			this->chip10->Image = chipList->Images[0];
-			this->chip10->Visible = true;
 		}
 		else
 		{
@@ -1044,8 +1053,6 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
-			this->chip50->Image = chipList->Images[1];
-			this->chip50->Visible = true;
 		}
 		else
 		{
@@ -1055,6 +1062,7 @@ namespace blackJack {
 	}
 	private: System::Void bet100Button_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		this->betLabel->Text = System::Convert::ToString(usedCards->Length);
 		if (start)
 		{
 			if (!betPlaced && 100 < playerCashTotal)
@@ -1072,8 +1080,6 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
-			this->chip100->Image = chipList->Images[2];
-			this->chip100->Visible = true;
 		}
 		else
 		{
@@ -1100,8 +1106,6 @@ namespace blackJack {
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
-			this->chip500->Image = chipList->Images[3];
-			this->chip500->Visible = true;
 		}
 		else
 		{
@@ -1928,24 +1932,14 @@ namespace blackJack {
 
 		dealerMsg->Text = "";
 
-	
-		
-		for (int i = 0; i < 52; i++)
+		if (sizeof(usedCards) <= 22)
 		{
-			if (System::Convert::ToBoolean(usedCards[i]) == true)
-			{
-				count++;
-			}
-		}
-		if (count >= 22)
-		{
-			dealerMsg->Text = "Using new deck.";
+			dealerMsg->Text = "Using new deck." + sizeof(usedCards);
 			for (int i = 0; i < 52; i++)
 			{
 				usedCards[i] = false;
 			}
 		}
-		
 
 		handTotalAmount->Text = System::Convert::ToString(0);
 		dealerHandTotal->Text = System::Convert::ToString(0);
@@ -1958,7 +1952,6 @@ namespace blackJack {
 		fiveHundred = 0;
 		temp = 0;
 		softAce = 0;
-		count = 0;
 		PlayerValue2Exists = false;
 		playerAce = false;
 		playerAce2 = false;
@@ -2141,45 +2134,46 @@ namespace blackJack {
 			break;
 		}
 	}
-private: System::Void customBet_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (start)
-	{
-		if (customBet->Text != "")
+	private: System::Void customBet_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (start)
 		{
-			customBetAmount = System::Convert::ToInt32(customBet->Text);
-			if (customBetAmount % 10 > 0)
+			if (customBet->Text != "")
 			{
-				dealerMsg->Text = "Please enter a multiple of 10.";
+				customBetAmount = System::Convert::ToInt32(customBet->Text);
+				if (customBetAmount % 10 > 0)
+				{
+					dealerMsg->Text = "Please enter a multiple of 10.";
+					return;
+				}
+				else if (customBetAmount > playerCashTotal)
+				{
+					dealerMsg->Text = "You don't have that many chips.";
+					return;
+				}
+				dealerMsg->Text = "";
+				if (customBetAmount >= 10)
+				{
+					this->winnings->Image = playerStack->Images[1];
+					this->winnings->Visible = true;
+				}
+				if (betPlaced == true)
+				{
+					return;
+				}
+				result = customBetAmount;
+				if (result > playerCashTotal)
+				{
+					return;
+				}
+				playerBetAmount->Text = System::Convert::ToString(result);
+			}
+			else
+			{
 				return;
 			}
-			else if (customBetAmount > playerCashTotal)
-			{
-				dealerMsg->Text = "You don't have that many chips.";
-				return;
-			}
-			dealerMsg->Text = "";
-			if (customBetAmount >= 10)
-			{
-				this->winnings->Image = playerStack->Images[1];
-				this->winnings->Visible = true;
-			}
-			if (betPlaced == true)
-			{
-				return;
-			}
-			result = customBetAmount;
-			if (result > playerCashTotal)
-			{
-				return;
-			}
-			playerBetAmount->Text = System::Convert::ToString(result);
-		}
-		else
-		{
-			return;
+
 		}
 	}
-}
-};
+	};
 
 }
