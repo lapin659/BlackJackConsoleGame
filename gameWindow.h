@@ -2263,7 +2263,6 @@ private: System::Void customBet_TextChanged(System::Object^ sender, System::Even
 	{
 		if (customBet->Text != "")
 		{
-			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			try
 			{
 				customBetAmount = System::Convert::ToInt32(customBet->Text);
@@ -2299,41 +2298,6 @@ private: System::Void customBet_TextChanged(System::Object^ sender, System::Even
 				return;
 			}
 			playerBetAmount->Text = System::Convert::ToString(result);
-
-			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 500)
-			{
-				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			}
-			else
-			{
-				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
-			}
-			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 100)
-			{
-				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			}
-			else
-			{
-				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
-			}
-			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 50)
-			{
-				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			}
-			else
-			{
-				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
-			}
-			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 10)
-			{
-				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			}
-			else
-			{
-				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
-			}
-
-			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::System;
 		}
 		else
 		{
