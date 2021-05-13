@@ -64,11 +64,7 @@ namespace blackJack {
 		int n{};
 		int playerValue{};
 		int softAce{};
-		int ten{};
 		int temp{};
-		int fiveHundred{};
-		int oneHundred{};
-		int fifty{};
 		int dealerValue{};
 		int customBetAmount{};
 		bool PlayerValue2Exists = false;
@@ -284,9 +280,10 @@ namespace blackJack {
 			// 
 			// hitButton
 			// 
+			this->hitButton->BackColor = System::Drawing::Color::DimGray;
 			this->hitButton->FlatAppearance->BorderColor = System::Drawing::Color::White;
 			this->hitButton->FlatAppearance->BorderSize = 0;
-			this->hitButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
+			this->hitButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->hitButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->hitButton->Location = System::Drawing::Point(499, 683);
@@ -294,14 +291,15 @@ namespace blackJack {
 			this->hitButton->Size = System::Drawing::Size(107, 52);
 			this->hitButton->TabIndex = 0;
 			this->hitButton->Text = L"Hit";
-			this->hitButton->UseVisualStyleBackColor = true;
+			this->hitButton->UseVisualStyleBackColor = false;
 			this->hitButton->Click += gcnew System::EventHandler(this, &gameWindow::hitButton_Click);
 			// 
 			// standButton
 			// 
+			this->standButton->BackColor = System::Drawing::Color::DimGray;
 			this->standButton->FlatAppearance->BorderColor = System::Drawing::Color::White;
 			this->standButton->FlatAppearance->BorderSize = 0;
-			this->standButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
+			this->standButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->standButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->standButton->Location = System::Drawing::Point(612, 683);
@@ -309,14 +307,15 @@ namespace blackJack {
 			this->standButton->Size = System::Drawing::Size(107, 52);
 			this->standButton->TabIndex = 1;
 			this->standButton->Text = L"Stand";
-			this->standButton->UseVisualStyleBackColor = true;
+			this->standButton->UseVisualStyleBackColor = false;
 			this->standButton->Click += gcnew System::EventHandler(this, &gameWindow::standButton_Click);
 			// 
 			// doubleButton
 			// 
+			this->doubleButton->BackColor = System::Drawing::Color::DimGray;
 			this->doubleButton->FlatAppearance->BorderColor = System::Drawing::Color::White;
 			this->doubleButton->FlatAppearance->BorderSize = 0;
-			this->doubleButton->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Black;
+			this->doubleButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->doubleButton->Font = (gcnew System::Drawing::Font(L"Arial", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->doubleButton->Location = System::Drawing::Point(725, 683);
@@ -324,7 +323,7 @@ namespace blackJack {
 			this->doubleButton->Size = System::Drawing::Size(107, 52);
 			this->doubleButton->TabIndex = 2;
 			this->doubleButton->Text = L"Double";
-			this->doubleButton->UseVisualStyleBackColor = true;
+			this->doubleButton->UseVisualStyleBackColor = false;
 			this->doubleButton->Click += gcnew System::EventHandler(this, &gameWindow::doubleButton_Click);
 			// 
 			// totalCashLabel
@@ -419,6 +418,8 @@ namespace blackJack {
 			// 
 			// bet10Button
 			// 
+			this->bet10Button->BackColor = System::Drawing::Color::DimGray;
+			this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->bet10Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->bet10Button->Location = System::Drawing::Point(1031, 581);
@@ -426,11 +427,13 @@ namespace blackJack {
 			this->bet10Button->Size = System::Drawing::Size(64, 29);
 			this->bet10Button->TabIndex = 12;
 			this->bet10Button->Text = L"$10";
-			this->bet10Button->UseVisualStyleBackColor = true;
+			this->bet10Button->UseVisualStyleBackColor = false;
 			this->bet10Button->Click += gcnew System::EventHandler(this, &gameWindow::bet10Button_Click);
 			// 
 			// bet50Button
 			// 
+			this->bet50Button->BackColor = System::Drawing::Color::DimGray;
+			this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->bet50Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->bet50Button->Location = System::Drawing::Point(1107, 581);
@@ -438,11 +441,13 @@ namespace blackJack {
 			this->bet50Button->Size = System::Drawing::Size(64, 29);
 			this->bet50Button->TabIndex = 13;
 			this->bet50Button->Text = L"$50";
-			this->bet50Button->UseVisualStyleBackColor = true;
+			this->bet50Button->UseVisualStyleBackColor = false;
 			this->bet50Button->Click += gcnew System::EventHandler(this, &gameWindow::bet50Button_Click);
 			// 
 			// bet100Button
 			// 
+			this->bet100Button->BackColor = System::Drawing::Color::DimGray;
+			this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->bet100Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->bet100Button->Location = System::Drawing::Point(1183, 581);
@@ -455,6 +460,8 @@ namespace blackJack {
 			// 
 			// bet500Button
 			// 
+			this->bet500Button->BackColor = System::Drawing::Color::DimGray;
+			this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->bet500Button->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->bet500Button->Location = System::Drawing::Point(1259, 581);
@@ -462,11 +469,13 @@ namespace blackJack {
 			this->bet500Button->Size = System::Drawing::Size(64, 29);
 			this->bet500Button->TabIndex = 15;
 			this->bet500Button->Text = L"$500";
-			this->bet500Button->UseVisualStyleBackColor = true;
+			this->bet500Button->UseVisualStyleBackColor = false;
 			this->bet500Button->Click += gcnew System::EventHandler(this, &gameWindow::bet500Button_Click);
 			// 
 			// clearBetButton
 			// 
+			this->clearBetButton->BackColor = System::Drawing::Color::DimGray;
+			this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->clearBetButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->clearBetButton->Location = System::Drawing::Point(1218, 473);
@@ -474,7 +483,7 @@ namespace blackJack {
 			this->clearBetButton->Size = System::Drawing::Size(108, 29);
 			this->clearBetButton->TabIndex = 16;
 			this->clearBetButton->Text = L"Clear Bet";
-			this->clearBetButton->UseVisualStyleBackColor = true;
+			this->clearBetButton->UseVisualStyleBackColor = false;
 			this->clearBetButton->Click += gcnew System::EventHandler(this, &gameWindow::clearBetButton_Click);
 			// 
 			// playerTotalCashAmount
@@ -651,6 +660,8 @@ namespace blackJack {
 			// 
 			// placeBet
 			// 
+			this->placeBet->BackColor = System::Drawing::Color::DimGray;
+			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->placeBet->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->placeBet->Location = System::Drawing::Point(1130, 646);
@@ -658,7 +669,7 @@ namespace blackJack {
 			this->placeBet->Size = System::Drawing::Size(100, 29);
 			this->placeBet->TabIndex = 29;
 			this->placeBet->Text = L"Place Bet";
-			this->placeBet->UseVisualStyleBackColor = true;
+			this->placeBet->UseVisualStyleBackColor = false;
 			this->placeBet->Click += gcnew System::EventHandler(this, &gameWindow::placeBet_Click);
 			// 
 			// MenuBar
@@ -1018,6 +1029,26 @@ namespace blackJack {
 			playerBetAmount->Text = System::Convert::ToString(result);
 			this->chip10->Image = chipList->Images[0];
 			this->chip10->Visible = true;
+			
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 500)
+			{
+				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 100)
+			{
+				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 50)
+			{
+				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 10)
+			{
+				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			
+			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::System;
+			this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
 		}
 		else
 		{
@@ -1046,6 +1077,26 @@ namespace blackJack {
 			playerBetAmount->Text = System::Convert::ToString(result);
 			this->chip50->Image = chipList->Images[1];
 			this->chip50->Visible = true;
+
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 500)
+			{
+				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 100)
+			{
+				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 50)
+			{
+				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 10)
+			{
+				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+
+			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::System;
+			this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
 		}
 		else
 		{
@@ -1074,6 +1125,26 @@ namespace blackJack {
 			playerBetAmount->Text = System::Convert::ToString(result);
 			this->chip100->Image = chipList->Images[2];
 			this->chip100->Visible = true;
+
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 500)
+			{
+				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 100)
+			{
+				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 50)
+			{
+				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 10)
+			{
+				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+
+			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::System;
+			this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
 		}
 		else
 		{
@@ -1102,6 +1173,26 @@ namespace blackJack {
 			playerBetAmount->Text = System::Convert::ToString(result);
 			this->chip500->Image = chipList->Images[3];
 			this->chip500->Visible = true;
+
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 500)
+			{
+				this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 100)
+			{
+				this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 50)
+			{
+				this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+			if (playerCashTotal - System::Convert::ToInt32(playerBetAmount->Text) < 10)
+			{
+				this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			}
+
+			this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::System;
+			this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
 		}
 		else
 		{
@@ -1121,6 +1212,12 @@ namespace blackJack {
 		this->chip100->Visible = false;
 		this->chip500->Visible = false;
 		this->customBet->Text = "";
+		this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 	}
 
 		   //HIT STAND DOUBLE BUTTONS
@@ -1542,6 +1639,16 @@ namespace blackJack {
 		playerCashTotal -= System::Convert::ToInt32(playerBetAmount->Text);
 		playerTotalCashAmount->Text = System::Convert::ToString(playerCashTotal);
 
+		this->clearBetButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->placeBet->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->hitButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->standButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->doubleButton->FlatStyle = System::Windows::Forms::FlatStyle::System;
+
 		for (int i = 0; i < 5; i++)
 		{
 			newCard();
@@ -1905,6 +2012,14 @@ namespace blackJack {
 			this->playerChips->Visible = false;
 		}
 
+		this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->hitButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->standButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		this->doubleButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+
 		this->playerCardBox01->Visible = false;
 		this->playerCardBox02->Visible = false;
 		this->playerCardBox03->Visible = false;
@@ -1952,10 +2067,6 @@ namespace blackJack {
 		playerBetAmount->Text = System::Convert::ToString(0);
 		n = 0;
 		playerValue = 0;
-		ten = 0;
-		fifty = 0;
-		oneHundred = 0;
-		fiveHundred = 0;
 		temp = 0;
 		softAce = 0;
 		count = 0;
@@ -2075,6 +2186,11 @@ namespace blackJack {
 	private: void gameStart() {
 		String^ moneyTemp = "0";
 
+		this->bet10Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet50Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet100Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+		this->bet500Button->FlatStyle = System::Windows::Forms::FlatStyle::System;
+
 		while (true) {
 			moneyTemp = Microsoft::VisualBasic::Interaction::InputBox(L"Enter Player Starting Money:", L"Game Start", L"500 to 50,000", 500, 500);
 			if (moneyTemp == """") {
@@ -2141,12 +2257,21 @@ namespace blackJack {
 			break;
 		}
 	}
+
 private: System::Void customBet_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (start)
 	{
 		if (customBet->Text != "")
 		{
-			customBetAmount = System::Convert::ToInt32(customBet->Text);
+			try
+			{
+				customBetAmount = System::Convert::ToInt32(customBet->Text);
+			}
+			catch (...)
+			{
+				dealerMsg->Text = "Please input a valid number.";
+				return;
+			}
 			if (customBetAmount % 10 > 0)
 			{
 				dealerMsg->Text = "Please enter a multiple of 10.";
